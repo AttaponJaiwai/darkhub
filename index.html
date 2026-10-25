@@ -1,2592 +1,314 @@
 
-
 <!DOCTYPE html>
-
 <html lang="th">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color" content="#0b0d14">
-
-  <title>DarkHub — Your Productivity Space</title>
-
-
-
-  <style>
-
-    :root {
-
-      color-scheme: dark;
-
-      --bg: #0b0d14;
-
-      --panel: #131722;
-
-      --panel-2: #191e2c;
-
-      --border: #292f40;
-
-      --text: #f1f3fa;
-
-      --muted: #969eb3;
-
-      --purple: #a78bfa;
-
-      --purple-dark: #7c5ce7;
-
-      --green: #34d399;
-
-      --red: #fb7185;
-
-      --radius: 20px;
-
-    }
-
-
-
-    * { box-sizing: border-box; }
-
-
-
-    body {
-
-      margin: 0;
-
-      min-height: 100vh;
-
-      background:
-
-        radial-gradient(ellipse at 15% 0%, #242044 0, transparent 35%),
-
-        radial-gradient(ellipse at 100% 30%, #102b30 0, transparent 28%),
-
-        var(--bg);
-
-      color: var(--text);
-
-      font-family: "Segoe UI", Tahoma, sans-serif;
-
-      line-height: 1.6;
-
-    }
-
-
-
-    button, input { font: inherit; }
-
-
-
-    button {
-
-      border: 1px solid transparent;
-
-      border-radius: 11px;
-
-      padding: 10px 15px;
-
-      color: white;
-
-      background: var(--purple-dark);
-
-      cursor: pointer;
-
-      transition: transform .18s, background .18s, border-color .18s;
-
-    }
-
-
-
-    button:hover {
-
-      transform: translateY(-1px);
-
-      background: #8b6aee;
-
-    }
-
-
-
-    button:active { transform: scale(.98); }
-
-
-
-    button:focus-visible, input:focus-visible {
-
-      outline: 2px solid var(--purple);
-
-      outline-offset: 3px;
-
-    }
-
-
-
-    button.secondary {
-
-      background: #202637;
-
-      border-color: var(--border);
-
-    }
-
-
-
-    button.secondary:hover { background: #2b3348; }
-
-
-
-    button.danger {
-
-      background: #48222d;
-
-      border-color: #65303d;
-
-    }
-
-
-
-    input {
-
-      width: 100%;
-
-      min-width: 0;
-
-      border: 1px solid var(--border);
-
-      border-radius: 10px;
-
-      padding: 10px 12px;
-
-      color: var(--text);
-
-      background: #0e121c;
-
-    }
-
-
-
-    input:focus { border-color: var(--purple); }
-
-
-
-    label {
-
-      display: block;
-
-      margin-bottom: 6px;
-
-      font-size: 13px;
-
-      color: var(--muted);
-
-    }
-
-
-
-    .container {
-
-      width: min(1120px, calc(100% - 32px));
-
-      margin: auto;
-
-      padding-bottom: 40px;
-
-    }
-
-
-
-    header {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      gap: 16px;
-
-      padding: 26px 0 30px;
-
-    }
-
-
-
-    .brand {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-    }
-
-
-
-    .brand-icon {
-
-      display: grid;
-
-      place-items: center;
-
-      width: 46px;
-
-      height: 46px;
-
-      border-radius: 14px;
-
-      background: linear-gradient(135deg, #a78bfa, #6351c8);
-
-      font-size: 24px;
-
-      box-shadow: 0 8px 30px #8b5cf633;
-
-    }
-
-
-
-    .brand h1 {
-
-      margin: 0;
-
-      font-size: 23px;
-
-      letter-spacing: -.6px;
-
-    }
-
-
-
-    .brand p {
-
-      margin: 0;
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-    }
-
-
-
-    .status {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 8px;
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-    }
-
-
-
-    .status-dot {
-
-      width: 8px;
-
-      height: 8px;
-
-      border-radius: 50%;
-
-      background: var(--green);
-
-      box-shadow: 0 0 12px #34d39980;
-
-    }
-
-
-
-    .hero {
-
-      display: grid;
-
-      grid-template-columns: 1.3fr .7fr;
-
-      gap: 18px;
-
-      margin-bottom: 24px;
-
-    }
-
-
-
-    .hero-clock, .hero-note, .card {
-
-      border: 1px solid var(--border);
-
-      background: linear-gradient(145deg, #171b29ee, #10141eee);
-
-      border-radius: var(--radius);
-
-      box-shadow: 0 15px 40px #00000012;
-
-    }
-
-
-
-    .hero-clock {
-
-      padding: 26px;
-
-      display: flex;
-
-      flex-direction: column;
-
-      justify-content: center;
-
-      min-height: 190px;
-
-    }
-
-
-
-    .eyebrow {
-
-      margin: 0 0 8px;
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-      letter-spacing: 1.6px;
-
-      text-transform: uppercase;
-
-    }
-
-
-
-    .clock-time {
-
-      font-size: clamp(42px, 7vw, 68px);
-
-      font-weight: 750;
-
-      line-height: 1.15;
-
-      letter-spacing: -2px;
-
-      font-variant-numeric: tabular-nums;
-
-    }
-
-
-
-    .clock-date { margin-top: 10px; color: var(--muted); }
-
-
-
-    .hero-note {
-
-      padding: 25px;
-
-      display: flex;
-
-      flex-direction: column;
-
-      justify-content: center;
-
-      background: linear-gradient(145deg, #25203b, #151827);
-
-    }
-
-
-
-    .hero-note .big-emoji { font-size: 29px; }
-
-
-
-    .hero-note h2 {
-
-      margin: 8px 0 4px;
-
-      font-size: 20px;
-
-    }
-
-
-
-    .hero-note p { margin: 0; color: var(--muted); font-size: 13px; }
-
-
-
-    .section-heading {
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      margin: 26px 0 14px;
-
-    }
-
-
-
-    .section-heading h2 { margin: 0; font-size: 17px; }
-
-    .section-heading span { color: var(--muted); font-size: 12px; }
-
-
-
-    .grid {
-
-      display: grid;
-
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-
-      gap: 18px;
-
-    }
-
-
-
-    .card {
-
-      min-width: 0;
-
-      padding: 23px;
-
-      overflow: hidden;
-
-    }
-
-
-
-    .card h2 {
-
-      margin: 0 0 5px;
-
-      font-size: 17px;
-
-    }
-
-
-
-    .description {
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-      margin: 0 0 20px;
-
-    }
-
-
-
-    .field { margin-bottom: 13px; }
-
-    .row { display: flex; flex-wrap: wrap; gap: 9px; }
-
-    .row > button { flex: 1; }
-
-    .muted { color: var(--muted); }
-
-    .output {
-
-      padding: 14px;
-
-      border: 1px solid var(--border);
-
-      border-radius: 12px;
-
-      background: #0e121c;
-
-      overflow-wrap: anywhere;
-
-      font-variant-numeric: tabular-nums;
-
-    }
-
-
-
-    /* Stopwatch */
-
-    .stopwatch-time {
-
-      text-align: center;
-
-      padding: 20px 0;
-
-      font-size: clamp(36px, 6vw, 48px);
-
-      font-weight: 750;
-
-      font-variant-numeric: tabular-nums;
-
-      letter-spacing: -1px;
-
-    }
-
-
-
-    .laps {
-
-      display: grid;
-
-      gap: 6px;
-
-      max-height: 150px;
-
-      overflow-y: auto;
-
-      margin-top: 14px;
-
-    }
-
-
-
-    .lap {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      padding: 7px 10px;
-
-      background: #0e121c;
-
-      border-radius: 8px;
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-    }
-
-
-
-    /* Calculator */
-
-    .calc-display {
-
-      width: 100%;
-
-      padding: 18px 12px;
-
-      margin-bottom: 12px;
-
-      text-align: right;
-
-      font-size: 26px;
-
-      font-variant-numeric: tabular-nums;
-
-    }
-
-
-
-    .calc-grid {
-
-      display: grid;
-
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-
-      gap: 8px;
-
-    }
-
-
-
-    .calc-grid button {
-
-      min-height: 46px;
-
-      padding: 8px 4px;
-
-      background: #202637;
-
-      border-color: #2c3346;
-
-    }
-
-
-
-    .calc-grid button.operator { background: #322750; }
-
-    .calc-grid button.equals { background: var(--purple-dark); }
-
-    .calc-grid button.clear { background: #48222d; }
-
-
-
-    /* Pomodoro */
-
-    .pomo-card { --pomo-accent: var(--purple); }
-
-    .pomo-card.pomo-break { --pomo-accent: var(--green); }
-
-
-
-    .pomo-mode {
-
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 7px;
-
-      color: var(--pomo-accent);
-
-      font-size: 13px;
-
-    }
-
-
-
-    .pomo-ring {
-
-      --pomo-progress: 0deg;
-
-      width: min(245px, 72vw);
-
-      aspect-ratio: 1;
-
-      padding: 8px;
-
-      border-radius: 50%;
-
-      margin: 18px auto 22px;
-
-      display: grid;
-
-      place-items: center;
-
-      background: conic-gradient(
-
-        var(--pomo-accent) var(--pomo-progress),
-
-        #252b3a 0deg
-
-      );
-
-      box-shadow: 0 0 30px color-mix(in srgb, var(--pomo-accent) 12%, transparent);
-
-      transition: background .3s, box-shadow .3s;
-
-    }
-
-
-
-    .pomo-ring-inner {
-
-      width: 100%;
-
-      height: 100%;
-
-      border-radius: 50%;
-
-      background: #111520;
-
-      border: 1px solid #272d3c;
-
-      display: flex;
-
-      flex-direction: column;
-
-      align-items: center;
-
-      justify-content: center;
-
-      gap: 6px;
-
-    }
-
-
-
-    .pomo-time {
-
-      font-size: clamp(40px, 8vw, 56px);
-
-      font-weight: 800;
-
-      line-height: 1.1;
-
-      letter-spacing: -1.5px;
-
-      font-variant-numeric: tabular-nums;
-
-      color: var(--pomo-accent);
-
-      transition: color .3s;
-
-    }
-
-
-
-    .pomo-caption { color: var(--muted); font-size: 12px; }
-
-
-
-    .pomo-settings {
-
-      display: grid;
-
-      grid-template-columns: 1fr 1fr;
-
-      gap: 12px;
-
-      margin-bottom: 18px;
-
-    }
-
-
-
-    .pomo-setting {
-
-      padding: 12px;
-
-      border: 1px solid var(--border);
-
-      border-radius: 12px;
-
-      background: #0e121c;
-
-    }
-
-
-
-    .pomo-setting > label { color: var(--text); font-weight: 600; }
-
-
-
-    .time-inputs {
-
-      display: grid;
-
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-
-      gap: 8px;
-
-    }
-
-
-
-    .time-inputs input { padding: 8px 5px; text-align: center; }
-
-    .input-unit { color: var(--muted); font-size: 10px; text-align: center; }
-
-
-
-    .pomo-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-    .pomo-actions #pomoStart { grid-column: 1 / -1; }
-
-
-
-    .pomo-sound-settings {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .sound-toggle {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin: 0;
-      color: var(--text);
-      cursor: pointer;
-    }
-
-    .sound-toggle input {
-      width: 17px;
-      height: 17px;
-      accent-color: var(--purple);
-    }
-
-    .pomo-sound-settings button { flex: 0 0 auto; }
-
-    .message {
-
-      min-height: 42px;
-
-      margin-top: 13px;
-
-      padding: 10px 12px;
-
-      border-radius: 10px;
-
-      background: #0e121c;
-
-      border: 1px solid var(--border);
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-    }
-
-
-
-    .pomo-card.pomo-running .pomo-ring {
-
-      animation: ringGlow 2.5s ease-in-out infinite;
-
-    }
-
-
-
-    @keyframes ringGlow {
-
-      0%, 100% { filter: brightness(1); }
-
-      50% { filter: brightness(1.12); }
-
-    }
-
-
-
-    @media (prefers-reduced-motion: reduce) {
-
-      *, *::before, *::after {
-
-        animation-duration: .01ms !important;
-
-        transition-duration: .01ms !important;
-
-      }
-
-    }
-
-
-
-    /* Random number and password */
-
-    .result-number {
-
-      font-size: 36px;
-
-      font-weight: 800;
-
-      text-align: center;
-
-      padding: 18px 5px;
-
-      color: var(--purple);
-
-      font-variant-numeric: tabular-nums;
-
-    }
-
-
-
-    .password-output {
-
-      min-height: 54px;
-
-      word-break: break-all;
-
-      font-family: Consolas, monospace;
-
-    }
-
-
-
-    .goal-list { display: grid; gap: 9px; }
-
-
-
-    .goal-item {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 10px;
-
-      padding: 11px;
-
-      border: 1px solid var(--border);
-
-      border-radius: 10px;
-
-      background: #0e121c;
-
-    }
-
-
-
-    .goal-item input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--purple); }
-
-    .goal-item span { flex: 1; overflow-wrap: anywhere; }
-
-    .goal-item.done span { color: var(--muted); text-decoration: line-through; }
-
-    .goal-item button { padding: 4px 9px; }
-
-
-
-    .goal-progress {
-
-      height: 6px;
-
-      border-radius: 20px;
-
-      background: #252b3a;
-
-      overflow: hidden;
-
-      margin: 14px 0;
-
-    }
-
-
-
-    .goal-progress > div {
-
-      height: 100%;
-
-      width: 0;
-
-      background: linear-gradient(90deg, var(--purple-dark), var(--green));
-
-      transition: width .25s;
-
-    }
-
-
-
-    footer {
-
-      text-align: center;
-
-      padding: 32px 0 12px;
-
-      color: #737b90;
-
-      font-size: 12px;
-
-    }
-
-
-
-    @media (max-width: 720px) {
-
-      .hero { grid-template-columns: 1fr; }
-
-      .hero-clock { min-height: 160px; }
-
-      .grid { grid-template-columns: 1fr; }
-
-      header { padding-top: 20px; }
-
-      .card { padding: 19px; }
-
-    }
-
-
-
-    @media (max-width: 390px) {
-
-      .container { width: calc(100% - 20px); }
-
-      .pomo-settings { grid-template-columns: 1fr; }
-
-      .status { display: none; }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DarkHub — Arcana Edition</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{--bg:#090611;--panel:#120c1d;--purple:#c65cff;--orange:#ff8138;--gold:#ffd66b;--text:#f8f0ff;--muted:#a99bbd;--line:#ffffff19}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% 0,#54206a55,transparent 48%),var(--bg);color:var(--text);font-family:Kanit,sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.app{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh}
+aside{padding:24px 16px;background:#090611d9}
+.sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;gap:24px}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 6px 20px;border-bottom:1px solid var(--line)}
+.logo{width:39px;height:39px;border:1px solid var(--orange);display:grid;place-items:center;color:var(--gold);font-size:25px;transform:rotate(45deg);text-shadow:0 0 15px var(--orange)}
+.logo span{transform:rotate(-45deg)}
+.brandname{font:700 23px 'Space Grotesk';letter-spacing:-1px}
+.brandname b{color:var(--orange)}
+.brand small{display:block;font-size:9px;letter-spacing:1px;color:var(--muted)}
+.navlabel{font-size:10px;letter-spacing:3px;color:#82738f}
+.nav{display:grid;gap:7px}
+.nav button{background:transparent;border:1px solid transparent;color:#c9bbd9;text-align:left;padding:12px;border-radius:9px}
+.nav button:hover,.nav button.active{background:linear-gradient(100deg,#7824a844,#ff813813);border-color:#c65cff55;color:white}
+.quote{margin-top:auto;border:1px solid #c65cff33;border-radius:12px;padding:16px;font-size:12px;line-height:1.9;color:#c6b5d7;background:#1a1026}
+.quote strong{color:var(--gold);display:block}
+main{padding:24px clamp(15px,2vw,32px);min-width:0}
+.top{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;gap:10px}
+.top button,.iconbtn{background:#ffffff08;color:white;border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+.top button:hover{border-color:var(--orange)}
+.hero{text-align:center;padding:27px 0 24px}
+.star{color:var(--gold);font-size:26px;text-shadow:0 0 20px var(--gold)}
+.hero h1{font:600 clamp(35px,4vw,54px) 'Space Grotesk';letter-spacing:7px;margin:4px 0;color:#fff1cc}
+.hero h1 span{color:var(--orange)}
+.eyebrow{font:10px 'Space Grotesk';letter-spacing:4px;color:var(--purple)}
+.hero p{font-size:13px;color:var(--muted)}
+.heading{display:flex;justify-content:space-between;align-items:end;gap:8px;margin:15px 0}
+.heading h2{font-size:17px;font-weight:500;margin:0}
+.heading p{font-size:11px;color:var(--muted);margin:3px 0}
+.heading small{font:10px 'Space Grotesk';color:var(--gold);letter-spacing:2px}
+.deck{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{--a:var(--purple);position:relative;transform-style:preserve-3d;will-change:transform;min-width:0;min-height:295px;padding:15px 10px 25px;border:1px solid var(--a);border-radius:13px;overflow:hidden;color:white;background:radial-gradient(ellipse at 50% 40%,color-mix(in srgb,var(--a) 22%,transparent),transparent 60%),linear-gradient(155deg,#1b1228,#090611 75%);box-shadow:inset 0 0 25px color-mix(in srgb,var(--a) 10%,transparent),0 8px 20px #0005;transition:transform .48s cubic-bezier(.2,.8,.2,1),box-shadow .48s,border-color .35s,filter .35s;animation:deal .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*65ms)}
+.card:before{content:"";position:absolute;inset:7px;border:1px solid color-mix(in srgb,var(--a) 55%,transparent);border-radius:8px;pointer-events:none}
+.card:after{content:"✦ · ✧ · ✦";position:absolute;top:12px;left:0;right:0;color:var(--a);font-size:10px;letter-spacing:5px}
+.card:hover{transform:translateY(-9px) rotateX(2deg) scale(1.015);box-shadow:0 16px 35px #0009,0 0 25px color-mix(in srgb,var(--a) 30%,transparent);border-color:white}
+.card .type{position:absolute;right:14px;top:25px;font-size:9px;letter-spacing:1px;border:1px solid color-mix(in srgb,var(--a) 60%,transparent);border-radius:15px;padding:3px 7px;color:#e1d3ef}
+.art{height:145px;display:grid;place-items:center;margin-top:12px}
+.sigil{width:112px;height:112px;display:grid;place-items:center;border:1px solid var(--a);border-radius:50%;position:relative;font-size:49px;color:var(--a);text-shadow:0 0 22px var(--a);box-shadow:0 0 0 8px #ffffff05,0 0 0 16px #ffffff03,inset 0 0 28px color-mix(in srgb,var(--a) 22%,transparent)}
+.sigil:before,.sigil:after{content:"";position:absolute;inset:-11px;border:1px dashed color-mix(in srgb,var(--a) 65%,transparent);transform:rotate(30deg);border-radius:22px}
+.sigil:after{inset:-21px;transform:rotate(45deg);border-style:solid;opacity:.5}
+.card h3{font:600 16px 'Space Grotesk';color:var(--a);margin:5px 0}
+.card p{font-size:11px;line-height:1.7;color:#c7bad7;margin:0}
+.open{position:absolute;bottom:8px;left:calc(50% - 15px);width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--a);border-radius:50%;color:var(--a);background:#090611}
+.card:hover .open{background:var(--a);color:#16091b;transform:rotate(45deg) scale(1.08)}
+.card.is-selected{border-color:#fff;box-shadow:0 0 0 2px color-mix(in srgb,var(--a) 35%,transparent),0 0 36px color-mix(in srgb,var(--a) 35%,transparent);filter:saturate(1.2)}
+.card.is-selected .sigil{animation:sigilPulse 2.4s ease-in-out infinite}
+.card .open{transition:transform .35s,background .35s,color .35s}
+.orange{--a:#ff873b}.purple{--a:#c65cff}.gold{--a:#ffd15b}.pink{--a:#f875d7}.blue{--a:#70c8ff}.green{--a:#6cf0b9}
+.workspace{margin-top:25px;border:1px solid #c65cff50;border-radius:13px;overflow:hidden;background:linear-gradient(140deg,#1a1028,#0c0814);scroll-margin-top:24px;transition:border-color .4s,box-shadow .4s}
+.whead{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.whead h2{font-size:14px;font-weight:500;margin:0}
+.whead p{font-size:11px;color:var(--muted);margin:3px 0 0}
+.whead button{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:6px 10px}
+.wbody{padding:23px;min-height:190px;animation:contentEnter .45s cubic-bezier(.2,.8,.2,1) both}
+.wbody:has(.center),.wbody:has(.calc),.wbody:has(.goals){background:radial-gradient(ellipse at 50% 0,#8b32b40c,transparent 70%)}
+.workspace.is-entering{animation:workspaceEnter .6s cubic-bezier(.2,.8,.2,1) both;border-color:#ff873b99;box-shadow:0 0 45px #c65cff20}
+.workspace.is-entering .wbody{animation:contentEnter .5s .08s cubic-bezier(.2,.8,.2,1) both}
+.empty{text-align:center;color:var(--muted);padding:30px 0;font-size:12px}
+.empty strong{display:block;font-size:29px;color:var(--gold)}
+.center{text-align:center}
+.tooltitle{font-size:19px;margin:0 0 5px}
+.hint{font-size:12px;color:var(--muted);margin:0 0 17px}
+.clock{font:600 clamp(35px,5vw,58px) 'Space Grotesk';color:var(--gold);letter-spacing:2px;margin:15px 0}
+.btn{border:0;border-radius:8px;background:linear-gradient(110deg,var(--orange),var(--gold));color:#1c0c14;padding:10px 15px;font-weight:600;margin:3px}
+.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.btn.alt{background:#ffffff08;border:1px solid #ffffff28;color:white}
+.field{background:#090611;border:1px solid #ffffff25;border-radius:8px;color:white;padding:10px;width:100%;min-width:0}
+.fields{display:flex;justify-content:center;align-items:end;gap:10px;flex-wrap:wrap}
+.fieldwrap{display:grid;gap:5px;text-align:left;font-size:11px;color:var(--muted);min-width:110px}
+.fieldwrap input{width:135px}
+.bar{height:5px;max-width:440px;background:#ffffff12;margin:15px auto;border-radius:10px;overflow:hidden}
+.bar span{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--purple),var(--orange))}
+
+/* Pomodoro circular progress ring */
+.pomo-ring-wrap{display:grid;place-items:center;margin:22px auto 25px}
+.pomo-ring{--progress:100%;--ring-color:var(--orange);width:min(68vw,260px);height:min(68vw,260px);max-width:260px;max-height:260px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(from -90deg,var(--ring-color) 0 var(--progress),#ffffff12 var(--progress) 100%);box-shadow:0 0 28px color-mix(in srgb,var(--ring-color) 17%,transparent),inset 0 0 0 1px #ffffff10;transition:background .35s ease,box-shadow .35s ease}
+.pomo-ring:before{content:"";position:absolute;inset:9px;border-radius:50%;background:radial-gradient(circle at 50% 20%,#2b193b,#100a19 72%);border:1px solid color-mix(in srgb,var(--ring-color) 35%,transparent)}
+.pomo-ring:after{content:"✦";position:absolute;top:22px;color:var(--gold);font-size:13px;text-shadow:0 0 12px var(--gold)}
+.pomo-ring-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.pomo-ring .clock{font-size:clamp(31px,4.8vw,48px);letter-spacing:1px;margin:0;color:var(--gold);font-variant-numeric:tabular-nums}
+.pomo-ring-caption{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.pomo-ring.is-break{--ring-color:#8de0b5;box-shadow:0 0 28px #8de0b526,inset 0 0 0 1px #ffffff10}
+@media(max-width:520px){.pomo-ring{width:220px;height:220px}.pomo-ring .clock{font-size:34px}}
+
+.calc{max-width:340px;margin:auto}
+.display{font:25px 'Space Grotesk';text-align:right;background:#090611;border:1px solid var(--line);border-radius:8px;padding:15px;margin-bottom:8px;min-height:56px;overflow:auto}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.keys button{padding:12px 3px;border:1px solid #ffffff16;border-radius:7px;background:#21152e;color:white}
+.keys button.op{color:var(--gold)}.keys button.eq{background:var(--orange);color:#180a12}
+.goals{list-style:none;padding:0;margin:15px 0}
+.goals li{display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.goals input{accent-color:var(--orange)}
+.done{text-decoration:line-through;color:var(--muted)}
+.delete{margin-left:auto;background:transparent;border:0;color:var(--muted);font-size:19px}
+.rightbar{grid-column:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin:20px 0 0}
+.rightbar .wisdom,.rightbar .quick-access{display:none}
+/* V2.6 interactive polish */
+.card:active{transform:translateY(-2px) scale(.985);transition-duration:.12s}
+.card.is-selected:before{content:"✦ SELECTED ✦";inset:auto 0 9px;left:0;right:0;border:0;text-align:center;font:9px 'Space Grotesk';letter-spacing:2px;color:var(--gold);animation:contentEnter .35s both}
+.tool-panel{max-width:680px;margin:0 auto;padding:clamp(14px,2vw,24px);border:1px solid #ffffff12;border-radius:14px;background:radial-gradient(ellipse at 50% 0,#8b32b41c,transparent 65%),#0b081366;animation:contentEnter .45s both}
+.tool-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px;margin:16px 0}
+.metric{padding:12px;border:1px solid #ffffff14;border-radius:10px;background:#ffffff04;text-align:left}
+.metric span{display:block;color:var(--muted);font-size:10px}.metric strong{display:block;color:var(--gold);font:600 20px 'Space Grotesk';margin-top:5px}
+.history{max-width:480px;margin:14px auto 0;text-align:left}.history-item{display:flex;justify-content:space-between;gap:12px;padding:9px 11px;border-bottom:1px solid var(--line);font-size:12px;animation:contentEnter .3s both}.history-item strong{color:var(--gold);font-variant-numeric:tabular-nums}
+.result-pop{animation:resultPop .38s cubic-bezier(.2,.8,.2,1)}@keyframes resultPop{0%{opacity:.2;transform:translateY(8px) scale(.82);filter:blur(3px)}70%{transform:translateY(-2px) scale(1.04)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+.strength-track{height:5px;background:#ffffff14;border-radius:9px;overflow:hidden;margin:10px 0}.strength-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff8138,#ffd66b,#8de0b5);transition:width .35s}
+@media(max-width:520px){.tool-panel{padding:13px}.tool-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rightcard{border:1px solid #c65cff35;border-radius:12px;overflow:hidden;background:linear-gradient(145deg,#1b1129,#0b0813);transition:transform .3s,border-color .3s}
+.rightcard:hover{transform:translateY(-3px);border-color:#c65cff77}
+.rightcard{border:1px solid #c65cff35;border-radius:12px;overflow:hidden;background:linear-gradient(145deg,#1b1129,#0b0813)}
+.wisdom{padding:18px;min-height:175px;background:radial-gradient(ellipse at 80% 20%,#8b32b455,transparent 55%),linear-gradient(145deg,#2b1640,#100a19)}
+.wisdom blockquote{font-size:15px;line-height:1.9;margin:14px 0}
+.wisdom small{font-size:10px;color:var(--muted)}
+.rcontent{padding:15px}
+.rtitle{font-size:13px;margin:0 0 12px;font-weight:500}
+.quickgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.quick{background:#ffffff05;border:1px solid #ffffff16;color:#d9cce8;border-radius:8px;padding:9px 2px;font-size:10px}
+.quick span{display:block;font-size:20px;color:var(--purple);margin-bottom:4px}
+.quick:hover{border-color:var(--orange)}
+.ringrow{display:flex;align-items:center;gap:12px}
+.ring{--p:0%;width:70px;height:70px;flex-shrink:0;border-radius:50%;background:conic-gradient(var(--orange) var(--p),#ffffff15 0);display:grid;place-items:center;position:relative}
+.ring:before{content:"";position:absolute;inset:6px;border-radius:50%;background:#140d20}
+.ring strong{position:relative;font:600 15px 'Space Grotesk'}
+.smalltext{font-size:11px;line-height:2;color:var(--muted)}
+.stat{display:flex;justify-content:space-between;border-top:1px solid var(--line);margin-top:13px;padding-top:12px;font-size:11px;color:var(--muted)}
+.stat strong{font:600 14px 'Space Grotesk';color:white}
+.toggle{accent-color:var(--purple)}
+.soundrow{display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,12px);opacity:0;pointer-events:none;background:#21152e;border:1px solid #ff873b80;border-radius:9px;padding:11px 16px;z-index:9;font-size:12px;transition:.2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:#81738f;font:10px 'Space Grotesk';letter-spacing:3px;margin:25px 0 5px}
+@keyframes deal{from{opacity:0;transform:translateY(24px) rotate(1.5deg) scale(.97);filter:blur(3px)}to{opacity:1;transform:translateY(0) rotate(0) scale(1);filter:blur(0)}}
+@keyframes workspaceEnter{0%{opacity:.65;transform:translateY(18px) scale(.99)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes contentEnter{from{opacity:0;transform:translateY(12px);filter:blur(2px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes sigilPulse{0%,100%{filter:drop-shadow(0 0 2px var(--a));transform:scale(1)}50%{filter:drop-shadow(0 0 12px var(--a));transform:scale(1.035)}}
+@media(max-width:1250px){.app{grid-template-columns:190px minmax(0,1fr)}.deck{gap:10px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line);padding:14px}.brand{padding-bottom:10px;border:0}.navlabel,.quote{display:none}.nav{display:flex;overflow:auto;gap:5px}.nav button{white-space:nowrap;padding:9px}main{padding:18px 13px}.rightbar{grid-column:1;grid-template-columns:1fr 1fr;margin:10px 13px 20px}}
+@media(max-width:520px){.deck{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{min-height:250px;padding:12px 5px 24px}.art{height:115px}.sigil{width:85px;height:85px;font-size:38px}.card h3{font-size:12px}.card p{font-size:10px}.rightbar{grid-template-columns:1fr}.wbody{padding:16px 10px}.hero h1{letter-spacing:3px}.fieldwrap input{width:120px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
 </head>
-
-
-
 <body>
-
-  <div class="container">
-
-    <header>
-
-      <div class="brand">
-
-        <div class="brand-icon">◈</div>
-
-        <div>
-
-          <h1>DarkHub</h1>
-
-          <p>Your personal productivity space</p>
-
-        </div>
-
-      </div>
-
-      <div class="status">
-
-        <span class="status-dot"></span>
-
-        All systems ready
-
-      </div>
-
-    </header>
-
-
-
-    <section class="hero">
-
-      <div class="hero-clock">
-
-        <p class="eyebrow">Current local time</p>
-
-        <div class="clock-time" id="clockTime">00:00:00</div>
-
-        <div class="clock-date" id="clockDate">กำลังโหลดวันที่...</div>
-
-      </div>
-
-      <div class="hero-note">
-
-        <div class="big-emoji">🌌</div>
-
-        <h2>Make today count.</h2>
-
-        <p>จัดการเวลา โฟกัสเป้าหมาย และทำสิ่งสำคัญให้สำเร็จทีละอย่าง</p>
-
-      </div>
-
-    </section>
-
-
-
-    <div class="section-heading">
-
-      <h2>Productivity Tools</h2>
-
-      <span>เครื่องมือของคุณ</span>
-
-    </div>
-
-
-
-    <main class="grid">
-
-      <section class="card">
-
-        <h2>⏱️ Stopwatch</h2>
-
-        <p class="description">จับเวลาและบันทึกรอบเวลา</p>
-
-        <div class="stopwatch-time" id="stopwatchDisplay">00:00.00</div>
-
-        <div class="row">
-
-          <button id="swStart">เริ่ม</button>
-
-          <button id="swLap" class="secondary">บันทึกรอบ</button>
-
-          <button id="swReset" class="secondary">รีเซ็ต</button>
-
-        </div>
-
-        <div class="laps" id="swLaps"></div>
-
-      </section>
-
-
-
-      <section class="card">
-
-        <h2>🧮 Calculator</h2>
-
-        <p class="description">เครื่องคิดเลขพื้นฐาน</p>
-
-        <input class="calc-display" id="calcDisplay" value="0"
-
-          aria-label="หน้าจอเครื่องคิดเลข" readonly>
-
-        <div class="calc-grid" id="calcButtons">
-
-          <button class="clear" data-calc="clear">AC</button>
-
-          <button data-calc="back">⌫</button>
-
-          <button data-calc="(">(</button>
-
-          <button class="operator" data-calc="/">÷</button>
-
-          <button data-calc="7">7</button>
-
-          <button data-calc="8">8</button>
-
-          <button data-calc="9">9</button>
-
-          <button class="operator" data-calc="*">×</button>
-
-          <button data-calc="4">4</button>
-
-          <button data-calc="5">5</button>
-
-          <button data-calc="6">6</button>
-
-          <button class="operator" data-calc="-">−</button>
-
-          <button data-calc="1">1</button>
-
-          <button data-calc="2">2</button>
-
-          <button data-calc="3">3</button>
-
-          <button class="operator" data-calc="+">+</button>
-
-          <button data-calc=")">)</button>
-
-          <button data-calc="0">0</button>
-
-          <button data-calc=".">.</button>
-
-          <button class="equals" data-calc="=">=</button>
-
-        </div>
-
-        <div class="message" id="calcMessage" aria-live="polite">พร้อมคำนวณ</div>
-
-      </section>
-
-
-
-      <section class="card pomo-card" id="pomoCard">
-
-        <h2>🍅 Pomodoro Timer</h2>
-
-        <p class="description">โฟกัสให้เต็มที่ แล้วพักให้เพียงพอ</p>
-
-        <div class="pomo-mode" id="pomoMode">● โหมดทำงาน</div>
-
-
-
-        <div class="pomo-ring" id="pomoRing"
-
-          role="progressbar" aria-label="ความคืบหน้าของเวลา"
-
-          aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-
-          <div class="pomo-ring-inner">
-
-            <div class="pomo-time" id="pomoDisplay">25:00</div>
-
-            <div class="pomo-caption" id="pomoCaption">พร้อมเริ่ม</div>
-
-          </div>
-
-        </div>
-
-
-
-        <div class="pomo-settings">
-
-          <div class="pomo-setting">
-
-            <label>เวลาทำงาน</label>
-
-            <div class="time-inputs">
-
-              <div>
-
-                <input id="pomoWorkMinutes" type="number" min="0" max="180" value="25" aria-label="นาทีทำงาน">
-
-                <div class="input-unit">นาที</div>
-
-              </div>
-
-              <div>
-
-                <input id="pomoWorkSeconds" type="number" min="0" max="59" value="0" aria-label="วินาทีทำงาน">
-
-                <div class="input-unit">วินาที</div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="pomo-setting">
-
-            <label>เวลาพัก</label>
-
-            <div class="time-inputs">
-
-              <div>
-
-                <input id="pomoBreakMinutes" type="number" min="0" max="60" value="5" aria-label="นาทีพัก">
-
-                <div class="input-unit">นาที</div>
-
-              </div>
-
-              <div>
-
-                <input id="pomoBreakSeconds" type="number" min="0" max="59" value="0" aria-label="วินาทีพัก">
-
-                <div class="input-unit">วินาที</div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-
-        <div class="pomo-actions">
-
-          <button id="pomoStart">▶ เริ่ม</button>
-
-          <button id="pomoPause" class="secondary">⏸ หยุดชั่วคราว</button>
-
-          <button id="pomoReset" class="secondary">↺ รีเซ็ต</button>
-
-        </div>
-      <div class="pomo-sound-settings">
-        <label class="sound-toggle">
-          <input id="pomoSoundEnabled" type="checkbox" checked>
-          <span>🔔 เปิดเสียงแจ้งเตือน</span>
-        </label>
-        <button id="pomoTestSound" class="secondary" type="button">▶ ทดลองเสียง</button>
-      </div>
-      <div class="message" id="pomoSoundMessage" aria-live="polite">เสียงเปิดอยู่ · เตือนก่อนหมดเวลาพัก 10 วินาที</div>
-      <div class="message" id="pomoMessage" aria-live="polite">พร้อมเริ่มทำงาน</div>
-
-      </section>
-
-
-
-      <section class="card">
-
-        <h2>🎲 Random Number</h2>
-
-        <p class="description">สุ่มตัวเลขในช่วงที่ต้องการ</p>
-
-        <div class="field">
-
-          <label for="randomMin">ค่าต่ำสุด</label>
-
-          <input id="randomMin" type="number" value="1">
-
-        </div>
-
-        <div class="field">
-
-          <label for="randomMax">ค่าสูงสุด</label>
-
-          <input id="randomMax" type="number" value="100">
-
-        </div>
-
-        <div class="result-number" id="randomResult">—</div>
-
-        <button id="randomGenerate" style="width:100%">สุ่มตัวเลข</button>
-
-        <div class="message" id="randomMessage" aria-live="polite">กำหนดช่วงแล้วกดสุ่ม</div>
-
-      </section>
-
-
-
-      <section class="card">
-
-        <h2>🔐 Password Generator</h2>
-
-        <p class="description">สร้างรหัสผ่านด้วยตัวสุ่มของเบราว์เซอร์</p>
-
-        <div class="field">
-
-          <label for="passwordLength">ความยาว (8–64 ตัวอักษร)</label>
-
-          <input id="passwordLength" type="number" min="8" max="64" value="16">
-
-        </div>
-
-        <div class="field">
-
-          <label><input id="passUpper" type="checkbox" checked style="width:auto"> ตัวพิมพ์ใหญ่ A–Z</label>
-
-          <label><input id="passLower" type="checkbox" checked style="width:auto"> ตัวพิมพ์เล็ก a–z</label>
-
-          <label><input id="passNumbers" type="checkbox" checked style="width:auto"> ตัวเลข 0–9</label>
-
-          <label><input id="passSymbols" type="checkbox" checked style="width:auto"> สัญลักษณ์</label>
-
-        </div>
-
-        <div class="output password-output" id="passwordResult">รหัสผ่านจะแสดงที่นี่</div>
-
-        <div class="row" style="margin-top:12px">
-
-          <button id="passwordGenerate">สร้างรหัสผ่าน</button>
-
-          <button id="passwordCopy" class="secondary">คัดลอก</button>
-
-        </div>
-
-        <div class="message" id="passwordMessage" aria-live="polite">เลือกตัวเลือกแล้วสร้างรหัสผ่าน</div>
-
-      </section>
-
-
-
-      <section class="card">
-
-        <h2>🎯 Daily Goals</h2>
-
-        <p class="description">เป้าหมายวันนี้ของคุณ</p>
-
-        <div class="row">
-
-          <input id="goalInput" placeholder="พิมพ์เป้าหมาย..." maxlength="120" aria-label="เป้าหมายใหม่">
-
-          <button id="goalAdd">เพิ่ม</button>
-
-        </div>
-
-        <div class="goal-progress"><div id="goalProgressBar"></div></div>
-
-        <div class="muted" id="goalProgressText" style="font-size:12px;margin-bottom:12px">สำเร็จ 0 จาก 0</div>
-
-        <div class="goal-list" id="goalList"></div>
-
-      </section>
-
-    </main>
-
-
-
-    <footer>DarkHub © <span id="footerYear"></span> · Built for focus, designed for you.</footer>
-
-  </div>
-
-
-
-  <script>
-
-    "use strict";
-
-
-
-    // Helpers
-
-    const byId = (id) => document.getElementById(id);
-
-
-
-    function showMessage(id, message) {
-
-      byId(id).textContent = message;
-
-    }
-
-
-
-    // 1. Digital Clock
-
-    function updateClock() {
-
-      const now = new Date();
-
-      byId("clockTime").textContent = now.toLocaleTimeString("th-TH", {
-
-        hour: "2-digit", minute: "2-digit", second: "2-digit",
-
-        hour12: false
-
-      });
-
-      byId("clockDate").textContent = now.toLocaleDateString("th-TH", {
-
-        weekday: "long", year: "numeric", month: "long", day: "numeric"
-
-      });
-
-      byId("footerYear").textContent = now.getFullYear();
-
-    }
-
-    updateClock();
-
-    setInterval(updateClock, 1000);
-
-
-
-    // 2. Stopwatch
-
-    let swRunning = false;
-
-    let swStartAt = 0;
-
-    let swElapsed = 0;
-
-    let swInterval = null;
-
-    let swLapCount = 0;
-
-
-
-    function renderStopwatch() {
-
-      const elapsed = swElapsed + (swRunning ? performance.now() - swStartAt : 0);
-
-      const centiseconds = Math.floor(elapsed / 10);
-
-      const minutes = Math.floor(centiseconds / 6000);
-
-      const seconds = Math.floor(centiseconds / 100) % 60;
-
-      const cs = centiseconds % 100;
-
-      byId("stopwatchDisplay").textContent =
-
-        String(minutes).padStart(2, "0") + ":" +
-
-        String(seconds).padStart(2, "0") + "." +
-
-        String(cs).padStart(2, "0");
-
-    }
-
-
-
-    byId("swStart").addEventListener("click", () => {
-
-      if (swRunning) {
-
-        swElapsed += performance.now() - swStartAt;
-
-        swRunning = false;
-
-        clearInterval(swInterval);
-
-        byId("swStart").textContent = "▶ เริ่มต่อ";
-
-      } else {
-
-        swStartAt = performance.now();
-
-        swRunning = true;
-
-        swInterval = setInterval(renderStopwatch, 30);
-
-        byId("swStart").textContent = "⏸ หยุด";
-
-      }
-
-      renderStopwatch();
-
-    });
-
-
-
-    byId("swLap").addEventListener("click", () => {
-
-      if (!swRunning && swElapsed === 0) return;
-
-      renderStopwatch();
-
-      swLapCount++;
-
-      const item = document.createElement("div");
-
-      item.className = "lap";
-
-      const name = document.createElement("span");
-
-      name.textContent = "รอบ " + swLapCount;
-
-      const time = document.createElement("span");
-
-      time.textContent = byId("stopwatchDisplay").textContent;
-
-      item.append(name, time);
-
-      byId("swLaps").prepend(item);
-
-    });
-
-
-
-    byId("swReset").addEventListener("click", () => {
-
-      clearInterval(swInterval);
-
-      swRunning = false;
-
-      swElapsed = 0;
-
-      swLapCount = 0;
-
-      byId("swStart").textContent = "▶ เริ่ม";
-
-      byId("swLaps").replaceChildren();
-
-      renderStopwatch();
-
-    });
-
-
-
-    // 3. Calculator: parser without eval()
-
-    let calcExpression = "";
-
-    let calcJustEvaluated = false;
-
-
-
-    function tokenize(expression) {
-
-      const tokens = [];
-
-      let i = 0;
-
-
-
-      while (i < expression.length) {
-
-        const ch = expression[i];
-
-
-
-        if (/\s/.test(ch)) { i++; continue; }
-
-
-
-        if (/[0-9.]/.test(ch)) {
-
-          let number = "";
-
-          let dots = 0;
-
-
-
-          while (i < expression.length && /[0-9.]/.test(expression[i])) {
-
-            if (expression[i] === ".") dots++;
-
-            number += expression[i++];
-
-          }
-
-
-
-          if (dots > 1 || number === ".") throw Error("ตัวเลขไม่ถูกต้อง");
-
-          tokens.push(Number(number));
-
-          continue;
-
-        }
-
-
-
-        if ("+-*/()".includes(ch)) {
-
-          tokens.push(ch);
-
-          i++;
-
-          continue;
-
-        }
-
-
-
-        throw Error("มีอักขระที่ไม่รองรับ");
-
-      }
-
-      return tokens;
-
-    }
-
-
-
-    function evaluateExpression(expression) {
-
-      const tokens = tokenize(expression);
-
-      let pos = 0;
-
-
-
-      function parseExpression() {
-
-        let value = parseTerm();
-
-        while (tokens[pos] === "+" || tokens[pos] === "-") {
-
-          const op = tokens[pos++];
-
-          const right = parseTerm();
-
-          value = op === "+" ? value + right : value - right;
-
-        }
-
-        return value;
-
-      }
-
-
-
-      function parseTerm() {
-
-        let value = parseUnary();
-
-        while (tokens[pos] === "*" || tokens[pos] === "/") {
-
-          const op = tokens[pos++];
-
-          const right = parseUnary();
-
-          if (op === "/" && right === 0) throw Error("หารด้วยศูนย์ไม่ได้");
-
-          value = op === "*" ? value * right : value / right;
-
-        }
-
-        return value;
-
-      }
-
-
-
-      function parseUnary() {
-
-        if (tokens[pos] === "+") { pos++; return parseUnary(); }
-
-        if (tokens[pos] === "-") { pos++; return -parseUnary(); }
-
-        return parsePrimary();
-
-      }
-
-
-
-      function parsePrimary() {
-
-        const token = tokens[pos++];
-
-
-
-        if (typeof token === "number") return token;
-
-
-
-        if (token === "(") {
-
-          const value = parseExpression();
-
-          if (tokens[pos++] !== ")") throw Error("วงเล็บไม่ครบ");
-
-          return value;
-
-        }
-
-
-
-        throw Error("นิพจน์ไม่สมบูรณ์");
-
-      }
-
-
-
-      if (!tokens.length) throw Error("กรุณาป้อนตัวเลข");
-
-      const result = parseExpression();
-
-
-
-      if (pos !== tokens.length) throw Error("ตรวจสอบนิพจน์อีกครั้ง");
-
-      if (!Number.isFinite(result)) throw Error("ผลลัพธ์ไม่ถูกต้อง");
-
-
-
-      return Number(result.toPrecision(12));
-
-    }
-
-
-
-    function renderCalc() {
-
-      byId("calcDisplay").value = calcExpression || "0";
-
-    }
-
-
-
-    byId("calcButtons").addEventListener("click", (event) => {
-
-      const button = event.target.closest("button[data-calc]");
-
-      if (!button) return;
-
-
-
-      const value = button.dataset.calc;
-
-
-
-      if (value === "clear") {
-
-        calcExpression = "";
-
-        calcJustEvaluated = false;
-
-        showMessage("calcMessage", "ล้างค่าแล้ว");
-
-      } else if (value === "back") {
-
-        calcExpression = calcExpression.slice(0, -1);
-
-        calcJustEvaluated = false;
-
-      } else if (value === "=") {
-
-        try {
-
-          calcExpression = String(evaluateExpression(calcExpression));
-
-          calcJustEvaluated = true;
-
-          showMessage("calcMessage", "คำนวณสำเร็จ");
-
-        } catch (error) {
-
-          showMessage("calcMessage", error.message || "คำนวณไม่ได้");
-
-          calcExpression = "";
-
-        }
-
-      } else {
-
-        if (calcJustEvaluated && /[0-9.(]/.test(value)) calcExpression = "";
-
-        calcJustEvaluated = false;
-
-        calcExpression += value;
-
-      }
-
-
-
-      renderCalc();
-
-    });
-
-
-
-    // Pomodoro alert sounds (generated locally with Web Audio API)
-    let pomoAudioContext = null;
-
-    function getPomoAudioContext() {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) return null;
-      if (!pomoAudioContext) pomoAudioContext = new AudioContextClass();
-      if (pomoAudioContext.state === "suspended") pomoAudioContext.resume();
-      return pomoAudioContext;
-    }
-
-    function playPomoTone(frequency, startOffset, duration, volume = 0.12, type = "sine") {
-      const context = getPomoAudioContext();
-      if (!context || !byId("pomoSoundEnabled").checked) return;
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      const startAt = context.currentTime + startOffset;
-      oscillator.type = type;
-      oscillator.frequency.setValueAtTime(frequency, startAt);
-      gain.gain.setValueAtTime(0.0001, startAt);
-      gain.gain.exponentialRampToValueAtTime(volume, startAt + 0.025);
-      gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
-      oscillator.connect(gain);
-      gain.connect(context.destination);
-      oscillator.start(startAt);
-      oscillator.stop(startAt + duration + 0.03);
-    }
-
-    function playPomoAlert(kind) {
-      if (!byId("pomoSoundEnabled").checked) return;
-      // Each event has a distinct short melody.
-      if (kind === "break-start") {
-        playPomoTone(660, 0, 0.16);
-        playPomoTone(880, 0.2, 0.22);
-      } else if (kind === "break-ending") {
-        playPomoTone(740, 0, 0.12);
-        playPomoTone(740, 0.18, 0.12);
-        playPomoTone(988, 0.36, 0.2);
-      } else if (kind === "work-resume") {
-        playPomoTone(523, 0, 0.16);
-        playPomoTone(659, 0.18, 0.16);
-        playPomoTone(784, 0.36, 0.25);
-      } else if (kind === "test") {
-        playPomoTone(587, 0, 0.14);
-        playPomoTone(784, 0.18, 0.2);
-      }
-    }
-
-    byId("pomoSoundEnabled").addEventListener("change", () => {
-      showMessage("pomoSoundMessage", byId("pomoSoundEnabled").checked
-        ? "เปิดเสียงแจ้งเตือนแล้ว"
-        : "ปิดเสียงแจ้งเตือนแล้ว");
-      if (byId("pomoSoundEnabled").checked) getPomoAudioContext();
-    });
-
-    byId("pomoTestSound").addEventListener("click", () => {
-      if (!byId("pomoSoundEnabled").checked) {
-        showMessage("pomoSoundMessage", "กรุณาเปิดเสียงแจ้งเตือนก่อนทดลอง");
-        return;
-      }
-      getPomoAudioContext();
-      playPomoAlert("test");
-      showMessage("pomoSoundMessage", "กำลังเล่นเสียงทดลอง");
-    });
-
-    // Track whether the near-end break alert has already played this break.
-    let pomoBreakEndingAlerted = false;
-
-    // 4. Pomodoro: one self-contained timer controller
-
-    const pomo = {
-
-      running: false,
-
-      isBreak: false,
-
-      remaining: 25 * 60,
-
-      duration: 25 * 60,
-
-      deadline: 0,
-
-      interval: null
-
-    };
-
-
-
-    function readPomoDuration(isBreak) {
-
-      const prefix = isBreak ? "pomoBreak" : "pomoWork";
-
-      const minutes = Number(byId(prefix + "Minutes").value);
-
-      const seconds = Number(byId(prefix + "Seconds").value);
-
-      const maxMinutes = isBreak ? 60 : 180;
-
-
-
-      if (
-
-        !Number.isInteger(minutes) || minutes < 0 || minutes > maxMinutes ||
-
-        !Number.isInteger(seconds) || seconds < 0 || seconds > 59 ||
-
-        minutes * 60 + seconds < 1
-
-      ) {
-
-        return null;
-
-      }
-
-      return minutes * 60 + seconds;
-
-    }
-
-
-
-    function formatPomoTime(totalSeconds) {
-
-      const mins = Math.floor(totalSeconds / 60);
-
-      const secs = totalSeconds % 60;
-
-      return String(mins).padStart(2, "0") + ":" +
-
-        String(secs).padStart(2, "0");
-
-    }
-
-
-
-    function renderPomo() {
-
-      byId("pomoDisplay").textContent = formatPomoTime(pomo.remaining);
-
-
-
-      const progress = pomo.duration > 0
-
-        ? Math.max(0, Math.min(1, 1 - pomo.remaining / pomo.duration))
-
-        : 0;
-
-
-
-      byId("pomoRing").style.setProperty(
-
-        "--pomo-progress", (progress * 360) + "deg"
-
-      );
-
-      byId("pomoRing").setAttribute(
-
-        "aria-valuenow", String(Math.round(progress * 100))
-
-      );
-
-
-
-      byId("pomoCard").classList.toggle("pomo-break", pomo.isBreak);
-
-      byId("pomoCard").classList.toggle("pomo-running", pomo.running);
-
-
-
-      byId("pomoMode").textContent = pomo.isBreak
-
-        ? "● โหมดพัก"
-
-        : "● โหมดทำงาน";
-
-
-
-      byId("pomoCaption").textContent = pomo.running
-
-        ? "กำลังจับเวลา"
-
-        : pomo.remaining === 0 ? "หมดเวลา" : "เหลือเวลา";
-
-
-
-      byId("pomoStart").textContent = pomo.running
-
-        ? "▶ กำลังทำงาน..." : "▶ เริ่ม";
-
-      byId("pomoStart").disabled = pomo.running;
-
-    }
-
-
-
-    function stopPomoInterval() {
-
-      if (pomo.interval !== null) {
-
-        clearInterval(pomo.interval);
-
-        pomo.interval = null;
-
-      }
-
-      pomo.running = false;
-
-    }
-
-
-
-    function startPomo() {
-
-      if (pomo.running) return;
-
-
-
-      if (pomo.remaining <= 0) {
-
-        showMessage("pomoMessage", "หมดเวลาแล้ว กรุณากดรีเซ็ตเพื่อเริ่มใหม่");
-
-        return;
-
-      }
-
-
-
-      pomo.running = true;
-
-      pomo.deadline = Date.now() + pomo.remaining * 1000;
-
-      pomo.interval = setInterval(updatePomo, 100);
-
-      showMessage("pomoMessage", pomo.isBreak
-
-        ? "กำลังพัก... ปล่อยใจให้สบาย"
-
-        : "กำลังโฟกัส... ทำทีละอย่างให้สำเร็จ");
-
-      renderPomo();
-
-    }
-
-
-
-    function updatePomo() {
-
-      if (!pomo.running) return;
-
-
-
-      pomo.remaining = Math.max(
-
-        0, Math.ceil((pomo.deadline - Date.now()) / 1000)
-
-      );
-
-
-
-      // Warn once when a break has 10 seconds left.
-      if (pomo.isBreak && pomo.remaining > 0 && pomo.remaining <= 10 && !pomoBreakEndingAlerted) {
-        pomoBreakEndingAlerted = true;
-        playPomoAlert("break-ending");
-      }
-
-      if (pomo.remaining > 0) {
-
-        renderPomo();
-
-        return;
-
-      }
-
-
-
-      // End current phase, play its transition sound, then begin the next phase.
-      // The current phase is still active here, before toggling isBreak.
-      playPomoAlert(pomo.isBreak ? "work-resume" : "break-start");
-      stopPomoInterval();
-
-      pomo.isBreak = !pomo.isBreak;
-      if (pomo.isBreak) pomoBreakEndingAlerted = false;
-
-
-
-      const nextDuration = readPomoDuration(pomo.isBreak);
-
-
-
-      if (nextDuration === null) {
-
-        pomo.remaining = 0;
-
-        pomo.duration = 1;
-
-        showMessage("pomoMessage",
-
-          "เวลาช่วงถัดไปไม่ถูกต้อง กรุณาตั้งเวลาใหม่แล้วกดรีเซ็ต");
-
-        renderPomo();
-
-        return;
-
-      }
-
-
-
-      pomo.duration = nextDuration;
-
-      pomo.remaining = nextDuration;
-
-
-
-      showMessage("pomoMessage", pomo.isBreak
-
-        ? "หมดเวลาทำงานแล้ว! เริ่มช่วงพักอัตโนมัติ ☕"
-
-        : "หมดเวลาพักแล้ว! เริ่มช่วงทำงานใหม่อัตโนมัติ 🍅");
-
-
-
-      // Automatically start the next phase.
-
-      startPomo();
-
-    }
-
-
-
-    function pausePomo() {
-
-      if (!pomo.running) {
-
-        showMessage("pomoMessage", "ตัวจับเวลาหยุดอยู่แล้ว");
-
-        return;
-
-      }
-
-
-
-      pomo.remaining = Math.max(
-
-        0, Math.ceil((pomo.deadline - Date.now()) / 1000)
-
-      );
-
-      stopPomoInterval();
-
-      renderPomo();
-
-      showMessage("pomoMessage", "หยุดชั่วคราวแล้ว กดเริ่มเพื่อทำต่อ");
-
-    }
-
-
-
-    function resetPomo() {
-
-      stopPomoInterval();
-
-
-
-      const work = readPomoDuration(false);
-
-      const rest = readPomoDuration(true);
-
-
-
-      if (work === null || rest === null) {
-
-        showMessage("pomoMessage",
-
-          "เวลาทำงานต้องอยู่ในช่วง 0–180 นาที และเวลาพัก 0–60 นาที โดยแต่ละช่วงต้องมีอย่างน้อย 1 วินาที");
-
-        renderPomo();
-
-        return;
-
-      }
-
-
-
-      pomo.isBreak = false;
-
-      pomo.duration = work;
-
-      pomo.remaining = work;
-
-
-
-      renderPomo();
-
-      showMessage("pomoMessage", "ตั้งเวลาใหม่แล้ว พร้อมเริ่มทำงาน");
-
-    }
-
-
-
-    byId("pomoStart").addEventListener("click", startPomo);
-
-    byId("pomoPause").addEventListener("click", pausePomo);
-
-    byId("pomoReset").addEventListener("click", resetPomo);
-
-
-
-    [
-
-      "pomoWorkMinutes", "pomoWorkSeconds",
-
-      "pomoBreakMinutes", "pomoBreakSeconds"
-
-    ].forEach((id) => {
-
-      byId(id).addEventListener("change", () => {
-
-        if (!pomo.running) resetPomo();
-
-      });
-
-    });
-
-
-
-    renderPomo();
-
-
-
-    // 5. Random Number
-
-    byId("randomGenerate").addEventListener("click", () => {
-
-      const min = Number(byId("randomMin").value);
-
-      const max = Number(byId("randomMax").value);
-
-
-
-      if (!Number.isSafeInteger(min) || !Number.isSafeInteger(max) || min > max) {
-
-        showMessage("randomMessage", "กรุณาใส่จำนวนเต็มที่ถูกต้อง และค่าต่ำสุดต้องไม่มากกว่าค่าสูงสุด");
-
-        return;
-
-      }
-
-
-
-      const range = max - min + 1;
-
-
-
-      if (!Number.isSafeInteger(range) || range <= 0) {
-
-        showMessage("randomMessage", "ช่วงตัวเลขกว้างเกินไป");
-
-        return;
-
-      }
-
-
-
-      const values = new Uint32Array(1);
-
-      const limit = Math.floor(4294967296 / range) * range;
-
-      let value;
-
-
-
-      do {
-
-        crypto.getRandomValues(values);
-
-        value = values[0];
-
-      } while (value >= limit);
-
-
-
-      byId("randomResult").textContent = String(min + value % range);
-
-      showMessage("randomMessage", "สุ่มสำเร็จ");
-
-    });
-
-
-
-    // 6. Password Generator
-
-    byId("passwordGenerate").addEventListener("click", () => {
-
-      const length = Number(byId("passwordLength").value);
-
-      const sets = [];
-
-
-
-      if (byId("passUpper").checked) sets.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-
-      if (byId("passLower").checked) sets.push("abcdefghijklmnopqrstuvwxyz");
-
-      if (byId("passNumbers").checked) sets.push("0123456789");
-
-      if (byId("passSymbols").checked) sets.push("!@#$%^&*()-\_=+[]{}?");
-
-
-
-      if (!Number.isInteger(length) || length < 8 || length > 64) {
-
-        showMessage("passwordMessage", "กรุณาเลือกความยาวระหว่าง 8–64 ตัวอักษร");
-
-        return;
-
-      }
-
-
-
-      if (sets.length === 0) {
-
-        showMessage("passwordMessage", "กรุณาเลือกประเภทตัวอักษรอย่างน้อยหนึ่งแบบ");
-
-        return;
-
-      }
-
-
-
-      const all = sets.join("");
-
-      const randomIndex = (max) => {
-
-        const limit = Math.floor(4294967296 / max) * max;
-
-        const buf = new Uint32Array(1);
-
-        do { crypto.getRandomValues(buf); } while (buf[0] >= limit);
-
-        return buf[0] % max;
-
-      };
-
-
-
-      const chars = sets.map(set => set[randomIndex(set.length)]);
-
-      while (chars.length < length) chars.push(all[randomIndex(all.length)]);
-
-
-
-      // Shuffle to avoid fixed positions for required character types.
-
-      for (let i = chars.length - 1; i > 0; i--) {
-
-        const j = randomIndex(i + 1);
-
-        [chars[i], chars[j]] = [chars[j], chars[i]];
-
-      }
-
-
-
-      byId("passwordResult").textContent = chars.join("");
-
-      showMessage("passwordMessage", "สร้างรหัสผ่านแล้ว");
-
-    });
-
-
-
-    byId("passwordCopy").addEventListener("click", async () => {
-
-      const password = byId("passwordResult").textContent;
-
-
-
-      if (!password || password === "รหัสผ่านจะแสดงที่นี่") {
-
-        showMessage("passwordMessage", "กรุณาสร้างรหัสผ่านก่อน");
-
-        return;
-
-      }
-
-
-
-      try {
-
-        await navigator.clipboard.writeText(password);
-
-        showMessage("passwordMessage", "คัดลอกรหัสผ่านแล้ว");
-
-      } catch {
-
-        showMessage("passwordMessage",
-
-          "เบราว์เซอร์ไม่อนุญาตให้คัดลอกอัตโนมัติ กรุณาเลือกข้อความแล้วกด Ctrl+C");
-
-      }
-
-    });
-
-
-
-    // 7. Daily Goals (saved locally in this browser)
-
-    const GOAL_STORAGE_KEY = "darkhub-goals-v1";
-
-    let goals = [];
-
-
-
-    try {
-
-      const saved = localStorage.getItem(GOAL_STORAGE_KEY);
-
-      if (saved) {
-
-        const parsed = JSON.parse(saved);
-
-        if (Array.isArray(parsed)) {
-
-          goals = parsed.filter(item =>
-
-            item &&
-
-            typeof item.text === "string" &&
-
-            typeof item.done === "boolean"
-
-          );
-
-        }
-
-      }
-
-    } catch {
-
-      goals = [];
-
-    }
-
-
-
-    function saveGoals() {
-
-      try {
-
-        localStorage.setItem(GOAL_STORAGE_KEY, JSON.stringify(goals));
-
-      } catch {
-
-        // The page remains usable even when storage is unavailable.
-
-      }
-
-    }
-
-
-
-    function renderGoals() {
-
-      const list = byId("goalList");
-
-      list.replaceChildren();
-
-
-
-      goals.forEach((goal, index) => {
-
-        const item = document.createElement("div");
-
-        item.className = "goal-item" + (goal.done ? " done" : "");
-
-
-
-        const checkbox = document.createElement("input");
-
-        checkbox.type = "checkbox";
-
-        checkbox.checked = goal.done;
-
-        checkbox.setAttribute("aria-label", "ทำเป้าหมายสำเร็จ");
-
-        checkbox.addEventListener("change", () => {
-
-          goals[index].done = checkbox.checked;
-
-          saveGoals();
-
-          renderGoals();
-
-        });
-
-
-
-        const text = document.createElement("span");
-
-        text.textContent = goal.text;
-
-
-
-        const remove = document.createElement("button");
-
-        remove.className = "danger";
-
-        remove.textContent = "×";
-
-        remove.setAttribute("aria-label", "ลบเป้าหมาย");
-
-        remove.addEventListener("click", () => {
-
-          goals.splice(index, 1);
-
-          saveGoals();
-
-          renderGoals();
-
-        });
-
-
-
-        item.append(checkbox, text, remove);
-
-        list.append(item);
-
-      });
-
-
-
-      const completed = goals.filter(goal => goal.done).length;
-
-      const percentage = goals.length ? completed / goals.length * 100 : 0;
-
-
-
-      byId("goalProgressBar").style.width = percentage + "%";
-
-      byId("goalProgressText").textContent =
-
-        "สำเร็จ " + completed + " จาก " + goals.length + " เป้าหมาย";
-
-    }
-
-
-
-    function addGoal() {
-
-      const input = byId("goalInput");
-
-      const text = input.value.trim();
-
-
-
-      if (!text) {
-
-        input.focus();
-
-        return;
-
-      }
-
-
-
-      goals.push({ text, done: false });
-
-      saveGoals();
-
-      renderGoals();
-
-      input.value = "";
-
-      input.focus();
-
-    }
-
-
-
-    byId("goalAdd").addEventListener("click", addGoal);
-
-    byId("goalInput").addEventListener("keydown", event => {
-
-      if (event.key === "Enter") addGoal();
-
-    });
-
-
-
-    renderGoals();
-
-  </script>
-
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo"><span>✦</span></div><div><div class="brandname">Dark<b>Hub</b></div><small>TOOLS • FOCUS • BETTER YOU</small></div></div>
+  <div class="navlabel">YOUR SPACE</div>
+  <nav class="nav">
+    <button class="active" data-home>⌂　หน้าหลัก</button>
+    <button data-collection>▦　สำรับไพ่</button>
+    <button data-tool="focus">◉　Pomodoro</button>
+    <button data-tool="stopwatch">◷　Stopwatch</button>
+    <button data-tool="calc">⌗　เครื่องคิดเลข</button>
+    <button data-tool="random">✧　สุ่มตัวเลข</button>
+    <button data-tool="password">♙　สร้างรหัสผ่าน</button>
+    <button data-tool="goals">✦　เป้าหมายประจำวัน</button>
+  </nav>
+  <div class="quote"><strong>✦ DAILY REMINDER</strong>ทุกความสำเร็จเริ่มจากก้าวเล็ก ๆ ที่เราลงมือทำในวันนี้</div>
+  <small style="color:#786b89">DARKHUB V2.6 • ARCANA MOTION</small>
+</aside>
+
+<main id="home">
+  <div class="top"><span>DARKHUB / <b id="crumb" style="color:var(--gold)">HOME</b></span><div><button id="soundTop" title="ทดลองเสียง">♫</button> <button id="themeBtn" title="เปลี่ยนแสง">☼</button> <span id="timeLabel" style="margin-left:8px;color:var(--gold)">--:--:--</span></div></div>
+  <section class="hero"><div class="star">✦</div><h1>DARK<span>HUB</span></h1><div class="eyebrow">CHOOSE YOUR TOOL</div><p>เลือกไพ่ของคุณ แล้วปลดล็อกพลังในการทำงานแต่ละวัน</p></section>
+  <div class="heading" id="collection"><div><h2>✧ The Arcana Collection</h2><p>ไพ่เครื่องมือ 6 ใบ · คลิกเพื่อเปิดใช้งาน</p></div><small>COLLECTION 001</small></div>
+  <section class="deck">
+    <button class="card orange" style="--i:0" data-tool="focus"><span class="type">FOCUS</span><div class="art"><div class="sigil">⌛</div></div><h3>POMODORO</h3><p>โฟกัสงาน พักให้พอ<br>เพิ่มประสิทธิภาพทุกวัน</p><span class="open">↗</span></button>
+    <button class="card purple" style="--i:1" data-tool="stopwatch"><span class="type">TIME</span><div class="art"><div class="sigil">◷</div></div><h3>STOPWATCH</h3><p>จับเวลาและบันทึกรอบ<br>อย่างแม่นยำ</p><span class="open">↗</span></button>
+    <button class="card gold" style="--i:2" data-tool="calc"><span class="type">MATH</span><div class="art"><div class="sigil">▦</div></div><h3>CALCULATOR</h3><p>คำนวณได้รวดเร็ว<br>ใช้งานง่าย</p><span class="open">↗</span></button>
+    <button class="card purple" style="--i:3" data-tool="random"><span class="type">CHANCE</span><div class="art"><div class="sigil">✧</div></div><h3>RANDOM NUMBER</h3><p>สุ่มตัวเลขตามต้องการ<br>สำหรับงานและความสนุก</p><span class="open">↗</span></button>
+    <button class="card orange" style="--i:4" data-tool="password"><span class="type">SECURITY</span><div class="art"><div class="sigil">♙</div></div><h3>PASSWORD GENERATOR</h3><p>สร้างรหัสผ่านสุ่ม<br>พร้อมตัวเลือกความปลอดภัย</p><span class="open">↗</span></button>
+    <button class="card pink" style="--i:5" data-tool="goals"><span class="type">LIFE</span><div class="art"><div class="sigil">✎</div></div><h3>DAILY GOALS</h3><p>ตั้งเป้าหมายในแต่ละวัน<br>และติดตามความคืบหน้า</p><span class="open">↗</span></button>
+  </section>
+  <section class="workspace" id="workspace">
+    <div class="whead"><div><h2 id="wtitle">✦ YOUR WORKSPACE</h2><p id="wsub">เลือกไพ่จากสำรับเพื่อเริ่มใช้งาน</p></div><button id="closeTool">ปิด ×</button></div>
+    <div class="wbody" id="toolBody"><div class="empty"><strong>✧</strong>YOUR NEXT MOVE AWAITS<br>พื้นที่ทำงานของคุณจะปรากฏตรงนี้</div></div>
+  </section>
+  <footer>DARKHUB V2.6 • MORE TOOLS • BETTER YOU</footer>
+</main>
+
+<aside class="rightbar" aria-label="สรุปประจำวัน">
+  <section class="rightcard"><div class="rcontent"><h3 class="rtitle">✦ TODAY'S MOMENTUM</h3><div class="ringrow"><div class="ring" id="ring"><strong id="ringText">0/0</strong></div><div class="smalltext">ความคืบหน้าเป้าหมาย<br><span id="goalStat">เพิ่มเป้าหมายเพื่อเริ่ม</span><br>ทุกก้าวเล็ก ๆ มีความหมาย</div></div><div class="stat">◷ รอบโฟกัสที่สำเร็จ <strong id="focusCount">0</strong></div></div></section>
+  <section class="rightcard"><div class="rcontent"><h3 class="rtitle">♫ FOCUS ATMOSPHERE</h3><div class="soundrow"><span>เสียงแจ้งเตือน Pomodoro</span><input type="checkbox" class="toggle" id="soundToggle" checked></div><p class="smalltext" style="margin:10px 0 12px">เสียงเริ่มพักและเริ่มงานไม่เหมือนกัน พร้อมเสียงเตือนก่อนหมดเวลาประมาณ 10 วินาที</p><div style="display:flex;gap:7px;flex-wrap:wrap"><button class="btn alt" id="testSound">♫ ทดลองเสียง</button><button class="btn alt" id="muteSound">ปิดเสียง</button></div></div></section>
+  <section class="rightcard notepad"><div class="rcontent"><h3 class="rtitle">✎ QUICK CAPTURE / จดไว้ก่อน</h3><p class="smalltext" style="margin:0 0 10px">ไอเดียหรือสิ่งที่ต้องทำ จดไว้ได้เลย ระบบบันทึกให้อัตโนมัติในเครื่องนี้</p><textarea id="quickNote" class="field" rows="3" placeholder="พิมพ์ไอเดียที่ไม่อยากลืม..." style="resize:vertical;line-height:1.7"></textarea><div class="stat"><span id="noteStatus">บันทึกในเครื่องนี้</span><button class="delete" id="clearNote" title="ล้างโน้ต" aria-label="ล้างโน้ต">×</button></div></div></section>
+</aside>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let activeTool=null,swElapsed=0,swStarted=0,swTimer=null,swRunning=false,swLaps=[];
+let pomoTotal=1500,pomoRemaining=1500,pomoTimer=null,pomoRunning=false,pomoMode="work",pomoWorkTotal=1500,pomoBreakTotal=300,pomoCycle=0,pomoEndingAlerted=false;
+let goals=[],focusCount=0;
+try{goals=JSON.parse(localStorage.getItem('arcana_goals')||'[]');if(!Array.isArray(goals))goals=[]}catch{goals=[]}
+try{focusCount=Number(localStorage.getItem('arcana_focus')||0)}catch{}
+$('focusCount').textContent=focusCount;
+try{$('quickNote').value=localStorage.getItem('darkhub_quick_note')||''}catch{}
+$('quickNote').addEventListener('input',()=>{try{localStorage.setItem('darkhub_quick_note',$('quickNote').value);$('noteStatus').textContent='บันทึกแล้ว ✓'}catch{$('noteStatus').textContent='บันทึกไม่สำเร็จ'}});
+$('clearNote').onclick=()=>{$('quickNote').value='';try{localStorage.removeItem('darkhub_quick_note')}catch{}$('noteStatus').textContent='ล้างโน้ตแล้ว'};
+function toast(s){let t=$('toast');t.textContent=s;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2300)}
+function fmt(s){s=Math.max(0,Math.floor(s));return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')}
+function updateClock(){$('timeLabel').textContent=new Date().toLocaleTimeString('th-TH',{hour12:false})}
+updateClock();setInterval(updateClock,1000);
+function sound(kind='test'){
+ if(!$('soundToggle').checked)return;
+ try{
+  const C=window.AudioContext||window.webkitAudioContext,c=new C();
+  // แต่ละเหตุการณ์มีทำนองของตัวเอง: เริ่มพัก / เตือน 10 วิ / เริ่มทำงาน
+  const patterns={
+   break:[{f:740,t:0,d:.16},{f:587,t:.2,d:.2},{f:494,t:.44,d:.28}],
+   warning:[{f:880,t:0,d:.12},{f:880,t:.22,d:.12}],
+   work:[{f:523,t:0,d:.13},{f:659,t:.16,d:.13},{f:784,t:.32,d:.13},{f:1047,t:.48,d:.3}],
+   test:[{f:523,t:0,d:.13},{f:659,t:.16,d:.13},{f:784,t:.32,d:.13},{f:1047,t:.48,d:.3}]
+  };
+  (patterns[kind]||patterns.test).forEach(n=>{
+   const o=c.createOscillator(),g=c.createGain(),start=c.currentTime+n.t;
+   o.type=kind==='warning'?'triangle':'sine';o.frequency.setValueAtTime(n.f,start);
+   g.gain.setValueAtTime(.001,start);g.gain.exponentialRampToValueAtTime(.12,start+.025);g.gain.exponentialRampToValueAtTime(.001,start+n.d);
+   o.connect(g);g.connect(c.destination);o.start(start);o.stop(start+n.d+.02);
+  });
+  setTimeout(()=>c.close(),1200);
+ }catch{toast('เล่นเสียงไม่ได้ในเบราว์เซอร์นี้')}
+}
+$('soundTop').onclick=()=>sound('test');$('testSound').onclick=()=>sound('test');
+$('muteSound').onclick=()=>{$('soundToggle').checked=false;toast('ปิดเสียงแจ้งเตือนแล้ว')};
+function stopTimers(){
+  // Switching tools pauses timers instead of losing elapsed time.
+  if(swRunning){swElapsed+=Date.now()-swStarted;swRunning=false}
+  if(pomoRunning){pomoRunning=false}
+  clearInterval(swTimer);clearInterval(pomoTimer);swTimer=pomoTimer=null;
+}
+function openTool(name){
+ stopTimers();activeTool=name;
+ document.querySelectorAll('.card[data-tool]').forEach(c=>c.classList.toggle('is-selected',c.dataset.tool===name));
+ let card=document.querySelector('.card[data-tool="'+name+'"]');
+ $('workspace').classList.remove('is-entering');void $('workspace').offsetWidth;$('workspace').classList.add('is-entering');
+ $('wtitle').textContent='✦ '+(card?card.querySelector('h3').textContent:name.toUpperCase());
+ $('wsub').textContent='ARCANA TOOL / '+name.toUpperCase();
+ $('crumb').textContent=name.toUpperCase();
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.tool===name));
+ render(name);
+ requestAnimationFrame(()=> $('workspace').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}));
+}
+document.querySelectorAll('[data-tool]').forEach(b=>b.addEventListener('click',()=>openTool(b.dataset.tool)));
+document.querySelector('[data-home]').onclick=()=>{document.querySelectorAll('.card[data-tool]').forEach(c=>c.classList.remove('is-selected'));document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));document.querySelector('[data-home]').classList.add('active');$('crumb').textContent='HOME';$('home').scrollIntoView({behavior:'smooth'})};
+document.querySelector('[data-collection]').onclick=()=>{$('collection').scrollIntoView({behavior:'smooth'});$('crumb').textContent='COLLECTION'};
+$('closeTool').onclick=()=>{stopTimers();activeTool=null;document.querySelectorAll('.card[data-tool]').forEach(c=>c.classList.remove('is-selected'));$('workspace').classList.remove('is-entering');$('wtitle').textContent='✦ YOUR WORKSPACE';$('wsub').textContent='เลือกไพ่จากสำรับเพื่อเริ่มใช้งาน';$('crumb').textContent='HOME';$('toolBody').innerHTML='<div class="empty"><strong>✧</strong>YOUR NEXT MOVE AWAITS<br>พื้นที่ทำงานของคุณจะปรากฏตรงนี้</div>'};
+$('themeBtn').onclick=()=>{let r=document.documentElement.style;let warm=r.getPropertyValue('--purple').trim()==='#e49aff';r.setProperty('--purple',warm?'#c65cff':'#e49aff');r.setProperty('--orange',warm?'#ff8138':'#ff9b43');toast(warm?'คืนค่าแสงเดิมแล้ว':'เปลี่ยนแสง Arcana แล้ว')};
+
+function render(name){
+ const root=$('toolBody');
+ if(name==='focus'){
+ root.innerHTML=`<div class="center"><h3 class="tooltitle">THE FOCUS</h3><p class="hint">สลับช่วงทำงานและพักอัตโนมัติ ตั้งนาที/วินาทีได้ทั้งสองช่วง · เปลี่ยนเวลาแล้วระบบอัปเดตให้อัตโนมัติ</p><div class="stat" style="max-width:360px;margin:0 auto 12px;justify-content:center"><strong id="pModeLabel">◉ ช่วงทำงาน</strong><span id="pCycleLabel">รอบที่ ${pomoCycle+1}</span></div><div class="pomo-ring-wrap"><div class="pomo-ring" id="pRing" role="progressbar" aria-label="ความคืบหน้า Pomodoro" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="pomo-ring-inner"><div class="pomo-ring-caption" id="pRingCaption">FOCUS SESSION</div><div class="clock" id="pClock">${fmt(pomoRemaining)}</div><div class="pomo-ring-caption" id="pRingSub">TIME REMAINING</div></div></div></div><div class="fields" style="justify-content:center;flex-wrap:wrap"><label class="fieldwrap">ทำงาน · นาที<input class="field" id="pWorkMin" type="number" min="0" max="999" value="${Math.floor(pomoWorkTotal/60)}"></label><label class="fieldwrap">วินาที<input class="field" id="pWorkSec" type="number" min="0" max="59" value="${pomoWorkTotal%60}"></label><label class="fieldwrap">พัก · นาที<input class="field" id="pBreakMin" type="number" min="0" max="999" value="${Math.floor(pomoBreakTotal/60)}"></label><label class="fieldwrap">วินาที<input class="field" id="pBreakSec" type="number" min="0" max="59" value="${pomoBreakTotal%60}"></label></div><div style="margin-top:15px"><button class="btn" id="pStart">▶ เริ่ม</button><button class="btn alt" id="pSkip">⏭ ข้ามช่วง</button><button class="btn alt" id="pReset">↺ รีเซ็ตรอบ</button><button class="btn alt" id="pSound">♫ ทดลองเสียง</button></div><p class="hint" id="pStatus" style="margin-top:12px">เริ่มทำงาน แล้วระบบจะพาเข้าสู่ช่วงพักเมื่อหมดเวลา</p></div>`;
+ const paint=()=>{$('pClock').textContent=fmt(pomoRemaining);const pct=pomoTotal?100*pomoRemaining/pomoTotal:0;$('pRing').style.setProperty('--progress',pct+'%');$('pRing').classList.toggle('is-break',pomoMode==='break');$('pRing').setAttribute('aria-valuenow',String(Math.round(100-pct)));$('pRingCaption').textContent=pomoMode==='work'?'FOCUS SESSION':'BREAK TIME';$('pRingSub').textContent=pomoRunning?'IN PROGRESS':'TIME REMAINING';$('pModeLabel').textContent=pomoMode==='work'?'◉ ช่วงทำงาน':'☕ ช่วงพัก';$('pCycleLabel').textContent='รอบที่ '+(pomoCycle+1);$('pStart').textContent=pomoRunning?'Ⅱ หยุดชั่วคราว':'▶ '+(pomoRemaining<pomoTotal?'ทำต่อ':'เริ่ม');$('pStatus').textContent=pomoRunning?(pomoMode==='work'?'กำลังโฟกัสงานอยู่…':'กำลังพักผ่อน…'):'แก้เวลาได้ทันที ไม่ต้องกดตั้งเวลา'};
+ const read=(prefix)=>{let m=Number($(prefix+'Min').value),s=Number($(prefix+'Sec').value);if(!Number.isInteger(m)||!Number.isInteger(s)||m<0||m>999||s<0||s>59||m*60+s<1)return null;return m*60+s};
+ const switchMode=()=>{if(pomoMode==='work'){pomoCycle++;pomoMode='break';pomoTotal=pomoBreakTotal;pomoRemaining=pomoTotal;pomoEndingAlerted=false;sound('break');toast('หมดเวลาทำงานแล้ว ได้เวลาพัก!')}else{pomoMode='work';pomoTotal=pomoWorkTotal;pomoRemaining=pomoTotal;pomoEndingAlerted=false;focusCount++;try{localStorage.setItem('arcana_focus',String(focusCount))}catch{}$('focusCount').textContent=focusCount;
+sound('work');toast('หมดเวลาพัก กลับมาโฟกัสกันต่อ!')}paint()};
+ paint();
+ const autoApplyTimes=()=>{let w=read('pWork'),b=read('pBreak');if(w===null||b===null)return;const oldModeTotal=pomoMode==='work'?pomoWorkTotal:pomoBreakTotal;pomoWorkTotal=w;pomoBreakTotal=b;const newModeTotal=pomoMode==='work'?w:b;if(!pomoRunning){pomoTotal=newModeTotal;pomoRemaining=newModeTotal;pomoEndingAlerted=false}else if(newModeTotal!==oldModeTotal){const elapsed=Math.max(0,oldModeTotal-pomoRemaining);pomoTotal=newModeTotal;pomoRemaining=Math.max(1,newModeTotal-Math.min(elapsed,newModeTotal-1));pomoEndingAlerted=false}paint();$('pStatus').textContent='อัปเดตเวลาอัตโนมัติแล้ว · '+(pomoMode==='work'?'ช่วงทำงาน':'ช่วงพัก')};
+ ['pWorkMin','pWorkSec','pBreakMin','pBreakSec'].forEach(id=>$(id).addEventListener('change',autoApplyTimes));
+ $('pStart').onclick=()=>{if(pomoRunning){clearInterval(pomoTimer);pomoTimer=null;pomoRunning=false;paint();return}if(pomoRemaining<=0)pomoRemaining=pomoTotal;pomoRunning=true;paint();pomoEndingAlerted=false;pomoTimer=setInterval(()=>{pomoRemaining=Math.max(0,pomoRemaining-1);const warningAt=Math.min(10,Math.max(1,pomoTotal-1));if(!pomoEndingAlerted&&pomoRemaining>0&&pomoRemaining<=warningAt){pomoEndingAlerted=true;sound('warning');toast(pomoMode==='break'?'เหลือเวลาพักประมาณ 10 วินาที!':'เหลือเวลาทำงานประมาณ 10 วินาที!')}paint();if(pomoRemaining<=0)switchMode()},1000)};
+ $('pSkip').onclick=()=>{if(pomoMode==='work'){pomoMode='break';pomoTotal=pomoBreakTotal;pomoRemaining=pomoTotal;pomoEndingAlerted=false;sound('break');toast('ข้ามไปช่วงพักแล้ว')}else{pomoMode='work';pomoTotal=pomoWorkTotal;pomoRemaining=pomoTotal;pomoEndingAlerted=false;sound('work');toast('กลับสู่ช่วงทำงานแล้ว')}paint()};
+ $('pReset').onclick=()=>{clearInterval(pomoTimer);pomoTimer=null;pomoRunning=false;pomoMode='work';pomoTotal=pomoWorkTotal;pomoRemaining=pomoTotal;pomoCycle=0;pomoEndingAlerted=false;paint();toast('รีเซ็ตรอบ Pomodoro แล้ว')};
+ $('pSound').onclick=()=>sound('test');
+ }
+ if(name==='stopwatch'){
+ root.innerHTML=`<div class="center"><h3 class="tooltitle">TIMEKEEPER</h3><p class="hint">จับเวลา หยุดชั่วคราว และบันทึกรอบ</p><div class="clock" id="swClock">${fmt(swElapsed/1000)}</div><button class="btn" id="swStart">▶ เริ่ม</button><button class="btn alt" id="swLap">＋ บันทึกรอบ</button><button class="btn alt" id="swReset">↺ รีเซ็ต</button><div class="tool-metrics"><div class="metric"><span>จำนวนรอบ</span><strong id="swLapCount">0</strong></div><div class="metric"><span>รอบที่เร็วที่สุด</span><strong id="swBest">--:--</strong></div><div class="metric"><span>รอบล่าสุด</span><strong id="swLast">--:--</strong></div></div><div id="lapList" class="history"></div></div>`;
+ const elapsed=()=>swElapsed+(swRunning?Date.now()-swStarted:0);
+ const paint=()=>{$('swClock').textContent=fmt(elapsed()/1000);$('swLapCount').textContent=swLaps.length;$('swBest').textContent=swLaps.length?fmt(Math.min(...swLaps)/1000):'--:--';$('swLast').textContent=swLaps.length?fmt(swLaps[swLaps.length-1]/1000):'--:--';$('lapList').innerHTML=swLaps.map((v,i)=>`<div class="history-item"><span>รอบ ${i+1}</span><strong>${fmt(v/1000)}</strong></div>`).join('')};
+ $('swStart').onclick=()=>{if(swRunning){swElapsed=elapsed();swRunning=false;clearInterval(swTimer);$('swStart').textContent='▶ ทำต่อ';paint()}else{swStarted=Date.now();swRunning=true;swTimer=setInterval(paint,100);$('swStart').textContent='Ⅱ หยุดชั่วคราว'}};
+  if(swRunning){$('swStart').textContent='Ⅱ หยุดชั่วคราว';swTimer=setInterval(paint,100)}
+ $('swLap').onclick=()=>{if(elapsed()===0){toast('เริ่มจับเวลาก่อน');return}swLaps.push(elapsed());paint()};
+ $('swReset').onclick=()=>{clearInterval(swTimer);swRunning=false;swElapsed=0;swLaps=[];$('swStart').textContent='▶ เริ่ม';paint()};
+ }
+ if(name==='calc'){
+ let exp='';root.innerHTML=`<div class="calc"><h3 class="tooltitle">ALCHEMIST</h3><p class="hint">เครื่องคิดเลขพื้นฐาน</p><div class="display" id="display">0</div><div class="keys">${['C','(',')','÷','7','8','9','×','4','5','6','−','1','2','3','+','0','.','⌫','='].map(v=>`<button class="${['C','(',')','÷','×','−','+'].includes(v)?'op':''} ${v==='='?'eq':''}" data-key="${v}">${v}</button>`).join('')}</div><div class="history" id="calcHistory"></div></div>`;
+ let calcHistory=[];
+ root.querySelectorAll('[data-key]').forEach(b=>b.onclick=()=>{let v=b.dataset.key;if(v==='C')exp='';else if(v==='⌫')exp=exp.slice(0,-1);else if(v==='='){try{let e=exp.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');if(!/^[0-9+\-*/().\s]+$/.test(e))throw 0;let n=Function('"use strict";return ('+e+')')();if(!Number.isFinite(n))throw 0;let before=exp;exp=String(Math.round((n+Number.EPSILON)*1e10)/1e10);calcHistory.unshift({before,result:exp});calcHistory=calcHistory.slice(0,4);$('calcHistory').innerHTML=calcHistory.map(x=>`<div class="history-item"><span>${x.before} =</span><strong>${x.result}</strong></div>`).join('')}catch{toast('นิพจน์ไม่ถูกต้อง');exp=''}}else exp+=({'×':'*','÷':'/','−':'-'}[v]||v);$('display').textContent=exp||'0'});
+ }
+ if(name==='random'){
+ root.innerHTML=`<div class="center"><h3 class="tooltitle">THE ORACLE</h3><p class="hint">กำหนดช่วงตัวเลขที่ต้องการสุ่ม</p><div class="fields"><label class="fieldwrap">ค่าต่ำสุด<input class="field" id="rMin" type="number" value="1"></label><label class="fieldwrap">ค่าสูงสุด<input class="field" id="rMax" type="number" value="100"></label></div><div class="clock result-pop" id="rResult">?</div><button class="btn" id="rGo">✧ สุ่มตัวเลข</button><div class="tool-metrics"><div class="metric"><span>จำนวนครั้งที่สุ่ม</span><strong id="rCount">0</strong></div><div class="metric"><span>ผลล่าสุด</span><strong id="rLast">—</strong></div></div><div id="rHistory" class="history"></div></div>`;
+ let randomHistory=[];
+ $('rGo').onclick=()=>{let a=Number($('rMin').value),b=Number($('rMax').value);if(!Number.isSafeInteger(a)||!Number.isSafeInteger(b)||b<a||b-a>1e9){toast('ตรวจสอบช่วงตัวเลขอีกครั้ง');return}let n=Math.floor(Math.random()*(b-a+1))+a;$('rResult').textContent=String(n);$('rResult').classList.remove('result-pop');void $('rResult').offsetWidth;$('rResult').classList.add('result-pop');randomHistory.unshift({n,a,b});randomHistory=randomHistory.slice(0,5);$('rCount').textContent=randomHistory.length;$('rLast').textContent=n;$('rHistory').innerHTML=randomHistory.map((x,i)=>`<div class="history-item"><span>ครั้งที่ ${randomHistory.length-i} · ${x.a}–${x.b}</span><strong>${x.n}</strong></div>`).join('')};
+ }
+ if(name==='password'){
+ root.innerHTML=`<div style="max-width:540px;margin:auto"><h3 class="tooltitle">SHADOW KEY</h3><p class="hint">สร้างรหัสผ่านสุ่มภายในเบราว์เซอร์</p><label class="fieldwrap">ความยาว (8–64)<input class="field" id="pwLen" type="number" min="8" max="64" value="18"></label><div style="display:grid;gap:9px;margin:16px 0;font-size:13px"><label><input id="pwU" type="checkbox" checked> ตัวพิมพ์ใหญ่</label><label><input id="pwL" type="checkbox" checked> ตัวพิมพ์เล็ก</label><label><input id="pwN" type="checkbox" checked> ตัวเลข</label><label><input id="pwS" type="checkbox" checked> สัญลักษณ์</label></div><div class="fields"><input class="field" id="pwOut" readonly placeholder="รหัสผ่านของคุณ"><button class="btn" id="pwGen">สร้าง</button><button class="btn alt" id="pwCopy">คัดลอก</button></div><div class="strength-track"><span id="pwStrengthBar"></span></div><p class="hint" id="pwStrengthText">ระดับความแข็งแรงจะแสดงหลังสร้างรหัสผ่าน</p></div>`;
+ $('pwGen').onclick=()=>{let n=Number($('pwLen').value);if(!Number.isInteger(n)||n<8||n>64){toast('ความยาวต้องอยู่ระหว่าง 8–64');return}let sets=[];if($('pwU').checked)sets.push('ABCDEFGHJKLMNPQRSTUVWXYZ');if($('pwL').checked)sets.push('abcdefghijkmnopqrstuvwxyz');if($('pwN').checked)sets.push('23456789');if($('pwS').checked)sets.push('!@#$%&*+-_?');if(!sets.length){toast('เลือกประเภทอย่างน้อยหนึ่งแบบ');return}const randBelow=max=>{const range=0x100000000,limit=range-(range%max);let x;do{x=crypto.getRandomValues(new Uint32Array(1))[0]}while(x>=limit);return x%max};const pick=s=>s[randBelow(s.length)];let a=sets.map(pick),all=sets.join('');while(a.length<n)a.push(pick(all));for(let i=a.length-1;i>0;i--){let j=randBelow(i+1);[a[i],a[j]]=[a[j],a[i]]}$('pwOut').value=a.join('');let score=Math.min(100,Math.round((n/64)*35+sets.length*16));$('pwStrengthBar').style.width=score+'%';$('pwStrengthText').textContent='ความแข็งแรงโดยประมาณ: '+(score>=80?'สูง':score>=55?'ปานกลาง':'ควรเพิ่มความยาวหรือประเภทอักขระ')};
+ $('pwCopy').onclick=async()=>{let v=$('pwOut').value;if(!v){toast('สร้างรหัสผ่านก่อน');return}try{await navigator.clipboard.writeText(v);toast('คัดลอกแล้ว')}catch{$('pwOut').select();toast('กด Ctrl+C เพื่อคัดลอก')}};
+ }
+ if(name==='goals'){
+ root.innerHTML=`<div style="max-width:620px;margin:auto"><h3 class="tooltitle">THE QUEST</h3><p class="hint">เป้าหมายบันทึกไว้ในเบราว์เซอร์เครื่องนี้</p><form id="goalForm" class="fields"><input class="field" id="goalInput" maxlength="100" placeholder="วันนี้อยากทำอะไรให้สำเร็จ?" required><button class="btn">＋ เพิ่มเป้าหมาย</button></form><p class="hint" id="goalCount" style="margin-top:18px"></p><ul class="goals" id="goalList"></ul></div>`;
+ drawGoals();
+ $('goalForm').onsubmit=e=>{e.preventDefault();let v=$('goalInput').value.trim();if(v){goals.push({text:v,done:false});saveGoals();$('goalInput').value='';drawGoals()}};
+ }
+}
+function saveGoals(){try{localStorage.setItem('arcana_goals',JSON.stringify(goals))}catch{}updateStats()}
+function drawGoals(){if(!$('goalList'))return;$('goalCount').textContent=`สำเร็จ ${goals.filter(g=>g.done).length} จาก ${goals.length} ภารกิจ`;$('goalList').innerHTML='';goals.forEach((g,i)=>{let li=document.createElement('li'),cb=document.createElement('input');cb.type='checkbox';cb.checked=g.done;cb.onchange=()=>{g.done=cb.checked;saveGoals();drawGoals()};let s=document.createElement('span');s.textContent=g.text;if(g.done)s.className='done';let del=document.createElement('button');del.className='delete';del.textContent='×';del.onclick=()=>{goals.splice(i,1);saveGoals();drawGoals()};li.append(cb,s,del);$('goalList').append(li)});updateStats()}
+function updateStats(){let done=goals.filter(g=>g.done).length,total=goals.length,pct=total?Math.round(done/total*100):0;$('ring').style.setProperty('--p',pct+'%');$('ringText').textContent=done+'/'+total;$('goalStat').textContent=total?'ความคืบหน้า '+pct+'%':'เพิ่มเป้าหมายเพื่อเริ่ม'}
+updateStats();
+</script>
 </body>
-
 </html>
