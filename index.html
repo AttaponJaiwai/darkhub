@@ -1,1242 +1,2592 @@
 
+
 <!DOCTYPE html>
+
 <html lang="th">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <meta name="theme-color" content="#0b0d14">
+
   <title>DarkHub — Your Productivity Space</title>
 
+
+
   <style>
+
     :root {
+
       color-scheme: dark;
+
       --bg: #0b0d14;
+
       --panel: #131722;
+
       --panel-2: #191e2c;
+
       --border: #292f40;
+
       --text: #f1f3fa;
+
       --muted: #969eb3;
+
       --purple: #a78bfa;
+
       --purple-dark: #7c5ce7;
+
       --green: #34d399;
+
       --red: #fb7185;
+
       --radius: 20px;
+
     }
+
+
 
     * { box-sizing: border-box; }
 
+
+
     body {
+
       margin: 0;
+
       min-height: 100vh;
+
       background:
+
         radial-gradient(ellipse at 15% 0%, #242044 0, transparent 35%),
+
         radial-gradient(ellipse at 100% 30%, #102b30 0, transparent 28%),
+
         var(--bg);
+
       color: var(--text);
+
       font-family: "Segoe UI", Tahoma, sans-serif;
+
       line-height: 1.6;
+
     }
+
+
 
     button, input { font: inherit; }
 
+
+
     button {
+
       border: 1px solid transparent;
+
       border-radius: 11px;
+
       padding: 10px 15px;
+
       color: white;
+
       background: var(--purple-dark);
+
       cursor: pointer;
+
       transition: transform .18s, background .18s, border-color .18s;
+
     }
 
+
+
     button:hover {
+
       transform: translateY(-1px);
+
       background: #8b6aee;
+
     }
+
+
 
     button:active { transform: scale(.98); }
 
+
+
     button:focus-visible, input:focus-visible {
+
       outline: 2px solid var(--purple);
+
       outline-offset: 3px;
+
     }
 
+
+
     button.secondary {
+
       background: #202637;
+
       border-color: var(--border);
+
     }
+
+
 
     button.secondary:hover { background: #2b3348; }
 
+
+
     button.danger {
+
       background: #48222d;
+
       border-color: #65303d;
+
     }
 
+
+
     input {
+
       width: 100%;
+
       min-width: 0;
+
       border: 1px solid var(--border);
+
       border-radius: 10px;
+
       padding: 10px 12px;
+
       color: var(--text);
+
       background: #0e121c;
+
     }
+
+
 
     input:focus { border-color: var(--purple); }
 
+
+
     label {
+
       display: block;
+
       margin-bottom: 6px;
+
       font-size: 13px;
+
       color: var(--muted);
+
     }
+
+
 
     .container {
+
       width: min(1120px, calc(100% - 32px));
+
       margin: auto;
+
       padding-bottom: 40px;
+
     }
+
+
 
     header {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       gap: 16px;
+
       padding: 26px 0 30px;
+
     }
+
+
 
     .brand {
+
       display: flex;
+
       align-items: center;
+
       gap: 12px;
+
     }
+
+
 
     .brand-icon {
+
       display: grid;
+
       place-items: center;
+
       width: 46px;
+
       height: 46px;
+
       border-radius: 14px;
+
       background: linear-gradient(135deg, #a78bfa, #6351c8);
+
       font-size: 24px;
+
       box-shadow: 0 8px 30px #8b5cf633;
+
     }
+
+
 
     .brand h1 {
+
       margin: 0;
+
       font-size: 23px;
+
       letter-spacing: -.6px;
+
     }
+
+
 
     .brand p {
+
       margin: 0;
+
       color: var(--muted);
+
       font-size: 12px;
+
     }
+
+
 
     .status {
+
       display: flex;
+
       align-items: center;
+
       gap: 8px;
+
       color: var(--muted);
+
       font-size: 12px;
+
     }
+
+
 
     .status-dot {
+
       width: 8px;
+
       height: 8px;
+
       border-radius: 50%;
+
       background: var(--green);
+
       box-shadow: 0 0 12px #34d39980;
+
     }
+
+
 
     .hero {
+
       display: grid;
+
       grid-template-columns: 1.3fr .7fr;
+
       gap: 18px;
+
       margin-bottom: 24px;
+
     }
+
+
 
     .hero-clock, .hero-note, .card {
+
       border: 1px solid var(--border);
+
       background: linear-gradient(145deg, #171b29ee, #10141eee);
+
       border-radius: var(--radius);
+
       box-shadow: 0 15px 40px #00000012;
+
     }
+
+
 
     .hero-clock {
+
       padding: 26px;
+
       display: flex;
+
       flex-direction: column;
+
       justify-content: center;
+
       min-height: 190px;
+
     }
+
+
 
     .eyebrow {
+
       margin: 0 0 8px;
+
       color: var(--muted);
+
       font-size: 12px;
+
       letter-spacing: 1.6px;
+
       text-transform: uppercase;
+
     }
 
+
+
     .clock-time {
+
       font-size: clamp(42px, 7vw, 68px);
+
       font-weight: 750;
+
       line-height: 1.15;
+
       letter-spacing: -2px;
+
       font-variant-numeric: tabular-nums;
+
     }
+
+
 
     .clock-date { margin-top: 10px; color: var(--muted); }
 
+
+
     .hero-note {
+
       padding: 25px;
+
       display: flex;
+
       flex-direction: column;
+
       justify-content: center;
+
       background: linear-gradient(145deg, #25203b, #151827);
+
     }
+
+
 
     .hero-note .big-emoji { font-size: 29px; }
 
+
+
     .hero-note h2 {
+
       margin: 8px 0 4px;
+
       font-size: 20px;
+
     }
+
+
 
     .hero-note p { margin: 0; color: var(--muted); font-size: 13px; }
 
+
+
     .section-heading {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       margin: 26px 0 14px;
+
     }
+
+
 
     .section-heading h2 { margin: 0; font-size: 17px; }
+
     .section-heading span { color: var(--muted); font-size: 12px; }
 
+
+
     .grid {
+
       display: grid;
+
       grid-template-columns: repeat(2, minmax(0, 1fr));
+
       gap: 18px;
+
     }
+
+
 
     .card {
+
       min-width: 0;
+
       padding: 23px;
+
       overflow: hidden;
+
     }
+
+
 
     .card h2 {
+
       margin: 0 0 5px;
+
       font-size: 17px;
+
     }
+
+
 
     .description {
+
       color: var(--muted);
+
       font-size: 12px;
+
       margin: 0 0 20px;
+
     }
+
+
 
     .field { margin-bottom: 13px; }
+
     .row { display: flex; flex-wrap: wrap; gap: 9px; }
+
     .row > button { flex: 1; }
+
     .muted { color: var(--muted); }
+
     .output {
+
       padding: 14px;
+
       border: 1px solid var(--border);
+
       border-radius: 12px;
+
       background: #0e121c;
+
       overflow-wrap: anywhere;
+
       font-variant-numeric: tabular-nums;
+
     }
+
+
 
     /* Stopwatch */
+
     .stopwatch-time {
+
       text-align: center;
+
       padding: 20px 0;
+
       font-size: clamp(36px, 6vw, 48px);
+
       font-weight: 750;
+
       font-variant-numeric: tabular-nums;
+
       letter-spacing: -1px;
+
     }
+
+
 
     .laps {
+
       display: grid;
+
       gap: 6px;
+
       max-height: 150px;
+
       overflow-y: auto;
+
       margin-top: 14px;
+
     }
+
+
 
     .lap {
+
       display: flex;
+
       justify-content: space-between;
+
       padding: 7px 10px;
+
       background: #0e121c;
+
       border-radius: 8px;
+
       color: var(--muted);
+
       font-size: 12px;
+
     }
+
+
 
     /* Calculator */
+
     .calc-display {
+
       width: 100%;
+
       padding: 18px 12px;
+
       margin-bottom: 12px;
+
       text-align: right;
+
       font-size: 26px;
+
       font-variant-numeric: tabular-nums;
+
     }
+
+
 
     .calc-grid {
+
       display: grid;
+
       grid-template-columns: repeat(4, minmax(0, 1fr));
+
       gap: 8px;
+
     }
+
+
 
     .calc-grid button {
+
       min-height: 46px;
+
       padding: 8px 4px;
+
       background: #202637;
+
       border-color: #2c3346;
+
     }
+
+
 
     .calc-grid button.operator { background: #322750; }
+
     .calc-grid button.equals { background: var(--purple-dark); }
+
     .calc-grid button.clear { background: #48222d; }
 
+
+
     /* Pomodoro */
+
     .pomo-card { --pomo-accent: var(--purple); }
+
     .pomo-card.pomo-break { --pomo-accent: var(--green); }
 
+
+
     .pomo-mode {
+
       display: inline-flex;
+
       align-items: center;
+
       gap: 7px;
+
       color: var(--pomo-accent);
+
       font-size: 13px;
+
     }
+
+
 
     .pomo-ring {
+
       --pomo-progress: 0deg;
+
       width: min(245px, 72vw);
+
       aspect-ratio: 1;
+
       padding: 8px;
+
       border-radius: 50%;
+
       margin: 18px auto 22px;
+
       display: grid;
+
       place-items: center;
+
       background: conic-gradient(
+
         var(--pomo-accent) var(--pomo-progress),
+
         #252b3a 0deg
+
       );
+
       box-shadow: 0 0 30px color-mix(in srgb, var(--pomo-accent) 12%, transparent);
+
       transition: background .3s, box-shadow .3s;
+
     }
+
+
 
     .pomo-ring-inner {
+
       width: 100%;
+
       height: 100%;
+
       border-radius: 50%;
+
       background: #111520;
+
       border: 1px solid #272d3c;
+
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
+
       justify-content: center;
+
       gap: 6px;
+
     }
 
+
+
     .pomo-time {
+
       font-size: clamp(40px, 8vw, 56px);
+
       font-weight: 800;
+
       line-height: 1.1;
+
       letter-spacing: -1.5px;
+
       font-variant-numeric: tabular-nums;
+
       color: var(--pomo-accent);
+
       transition: color .3s;
+
     }
+
+
 
     .pomo-caption { color: var(--muted); font-size: 12px; }
 
+
+
     .pomo-settings {
+
       display: grid;
+
       grid-template-columns: 1fr 1fr;
+
       gap: 12px;
+
       margin-bottom: 18px;
+
     }
 
+
+
     .pomo-setting {
+
       padding: 12px;
+
       border: 1px solid var(--border);
+
       border-radius: 12px;
+
       background: #0e121c;
+
     }
+
+
 
     .pomo-setting > label { color: var(--text); font-weight: 600; }
 
+
+
     .time-inputs {
+
       display: grid;
+
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
       gap: 8px;
+
     }
+
+
 
     .time-inputs input { padding: 8px 5px; text-align: center; }
+
     .input-unit { color: var(--muted); font-size: 10px; text-align: center; }
 
+
+
     .pomo-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
     .pomo-actions #pomoStart { grid-column: 1 / -1; }
 
-    .message {
-      min-height: 42px;
-      margin-top: 13px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: #0e121c;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 12px;
+
+
+    .pomo-sound-settings {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
     }
+
+    .sound-toggle {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .sound-toggle input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--purple);
+    }
+
+    .pomo-sound-settings button { flex: 0 0 auto; }
+
+    .message {
+
+      min-height: 42px;
+
+      margin-top: 13px;
+
+      padding: 10px 12px;
+
+      border-radius: 10px;
+
+      background: #0e121c;
+
+      border: 1px solid var(--border);
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+    }
+
+
 
     .pomo-card.pomo-running .pomo-ring {
+
       animation: ringGlow 2.5s ease-in-out infinite;
+
     }
+
+
 
     @keyframes ringGlow {
+
       0%, 100% { filter: brightness(1); }
+
       50% { filter: brightness(1.12); }
+
     }
+
+
 
     @media (prefers-reduced-motion: reduce) {
+
       *, *::before, *::after {
+
         animation-duration: .01ms !important;
+
         transition-duration: .01ms !important;
+
       }
+
     }
+
+
 
     /* Random number and password */
+
     .result-number {
+
       font-size: 36px;
+
       font-weight: 800;
+
       text-align: center;
+
       padding: 18px 5px;
+
       color: var(--purple);
+
       font-variant-numeric: tabular-nums;
+
     }
 
+
+
     .password-output {
+
       min-height: 54px;
+
       word-break: break-all;
+
       font-family: Consolas, monospace;
+
     }
+
+
 
     .goal-list { display: grid; gap: 9px; }
 
+
+
     .goal-item {
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
       padding: 11px;
+
       border: 1px solid var(--border);
+
       border-radius: 10px;
+
       background: #0e121c;
+
     }
+
+
 
     .goal-item input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--purple); }
+
     .goal-item span { flex: 1; overflow-wrap: anywhere; }
+
     .goal-item.done span { color: var(--muted); text-decoration: line-through; }
+
     .goal-item button { padding: 4px 9px; }
 
+
+
     .goal-progress {
+
       height: 6px;
+
       border-radius: 20px;
+
       background: #252b3a;
+
       overflow: hidden;
+
       margin: 14px 0;
+
     }
+
+
 
     .goal-progress > div {
+
       height: 100%;
+
       width: 0;
+
       background: linear-gradient(90deg, var(--purple-dark), var(--green));
+
       transition: width .25s;
+
     }
+
+
 
     footer {
+
       text-align: center;
+
       padding: 32px 0 12px;
+
       color: #737b90;
+
       font-size: 12px;
+
     }
+
+
 
     @media (max-width: 720px) {
+
       .hero { grid-template-columns: 1fr; }
+
       .hero-clock { min-height: 160px; }
+
       .grid { grid-template-columns: 1fr; }
+
       header { padding-top: 20px; }
+
       .card { padding: 19px; }
+
     }
+
+
 
     @media (max-width: 390px) {
+
       .container { width: calc(100% - 20px); }
+
       .pomo-settings { grid-template-columns: 1fr; }
+
       .status { display: none; }
+
     }
+
   </style>
+
 </head>
 
+
+
 <body>
+
   <div class="container">
+
     <header>
+
       <div class="brand">
+
         <div class="brand-icon">◈</div>
+
         <div>
+
           <h1>DarkHub</h1>
+
           <p>Your personal productivity space</p>
+
         </div>
+
       </div>
+
       <div class="status">
+
         <span class="status-dot"></span>
+
         All systems ready
+
       </div>
+
     </header>
 
+
+
     <section class="hero">
+
       <div class="hero-clock">
+
         <p class="eyebrow">Current local time</p>
+
         <div class="clock-time" id="clockTime">00:00:00</div>
+
         <div class="clock-date" id="clockDate">กำลังโหลดวันที่...</div>
+
       </div>
+
       <div class="hero-note">
+
         <div class="big-emoji">🌌</div>
+
         <h2>Make today count.</h2>
+
         <p>จัดการเวลา โฟกัสเป้าหมาย และทำสิ่งสำคัญให้สำเร็จทีละอย่าง</p>
+
       </div>
+
     </section>
 
+
+
     <div class="section-heading">
+
       <h2>Productivity Tools</h2>
+
       <span>เครื่องมือของคุณ</span>
+
     </div>
 
+
+
     <main class="grid">
-      <section class="card">
-        <h2>⏱️ Stopwatch</h2>
-        <p class="description">จับเวลาและบันทึกรอบเวลา</p>
-        <div class="stopwatch-time" id="stopwatchDisplay">00:00.00</div>
-        <div class="row">
-          <button id="swStart">เริ่ม</button>
-          <button id="swLap" class="secondary">บันทึกรอบ</button>
-          <button id="swReset" class="secondary">รีเซ็ต</button>
-        </div>
-        <div class="laps" id="swLaps"></div>
-      </section>
 
       <section class="card">
-        <h2>🧮 Calculator</h2>
-        <p class="description">เครื่องคิดเลขพื้นฐาน</p>
-        <input class="calc-display" id="calcDisplay" value="0"
-          aria-label="หน้าจอเครื่องคิดเลข" readonly>
-        <div class="calc-grid" id="calcButtons">
-          <button class="clear" data-calc="clear">AC</button>
-          <button data-calc="back">⌫</button>
-          <button data-calc="(">(</button>
-          <button class="operator" data-calc="/">÷</button>
-          <button data-calc="7">7</button>
-          <button data-calc="8">8</button>
-          <button data-calc="9">9</button>
-          <button class="operator" data-calc="*">×</button>
-          <button data-calc="4">4</button>
-          <button data-calc="5">5</button>
-          <button data-calc="6">6</button>
-          <button class="operator" data-calc="-">−</button>
-          <button data-calc="1">1</button>
-          <button data-calc="2">2</button>
-          <button data-calc="3">3</button>
-          <button class="operator" data-calc="+">+</button>
-          <button data-calc=")">)</button>
-          <button data-calc="0">0</button>
-          <button data-calc=".">.</button>
-          <button class="equals" data-calc="=">=</button>
+
+        <h2>⏱️ Stopwatch</h2>
+
+        <p class="description">จับเวลาและบันทึกรอบเวลา</p>
+
+        <div class="stopwatch-time" id="stopwatchDisplay">00:00.00</div>
+
+        <div class="row">
+
+          <button id="swStart">เริ่ม</button>
+
+          <button id="swLap" class="secondary">บันทึกรอบ</button>
+
+          <button id="swReset" class="secondary">รีเซ็ต</button>
+
         </div>
-        <div class="message" id="calcMessage" aria-live="polite">พร้อมคำนวณ</div>
+
+        <div class="laps" id="swLaps"></div>
+
       </section>
+
+
+
+      <section class="card">
+
+        <h2>🧮 Calculator</h2>
+
+        <p class="description">เครื่องคิดเลขพื้นฐาน</p>
+
+        <input class="calc-display" id="calcDisplay" value="0"
+
+          aria-label="หน้าจอเครื่องคิดเลข" readonly>
+
+        <div class="calc-grid" id="calcButtons">
+
+          <button class="clear" data-calc="clear">AC</button>
+
+          <button data-calc="back">⌫</button>
+
+          <button data-calc="(">(</button>
+
+          <button class="operator" data-calc="/">÷</button>
+
+          <button data-calc="7">7</button>
+
+          <button data-calc="8">8</button>
+
+          <button data-calc="9">9</button>
+
+          <button class="operator" data-calc="*">×</button>
+
+          <button data-calc="4">4</button>
+
+          <button data-calc="5">5</button>
+
+          <button data-calc="6">6</button>
+
+          <button class="operator" data-calc="-">−</button>
+
+          <button data-calc="1">1</button>
+
+          <button data-calc="2">2</button>
+
+          <button data-calc="3">3</button>
+
+          <button class="operator" data-calc="+">+</button>
+
+          <button data-calc=")">)</button>
+
+          <button data-calc="0">0</button>
+
+          <button data-calc=".">.</button>
+
+          <button class="equals" data-calc="=">=</button>
+
+        </div>
+
+        <div class="message" id="calcMessage" aria-live="polite">พร้อมคำนวณ</div>
+
+      </section>
+
+
 
       <section class="card pomo-card" id="pomoCard">
+
         <h2>🍅 Pomodoro Timer</h2>
+
         <p class="description">โฟกัสให้เต็มที่ แล้วพักให้เพียงพอ</p>
+
         <div class="pomo-mode" id="pomoMode">● โหมดทำงาน</div>
 
+
+
         <div class="pomo-ring" id="pomoRing"
+
           role="progressbar" aria-label="ความคืบหน้าของเวลา"
+
           aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+
           <div class="pomo-ring-inner">
+
             <div class="pomo-time" id="pomoDisplay">25:00</div>
+
             <div class="pomo-caption" id="pomoCaption">พร้อมเริ่ม</div>
+
           </div>
+
         </div>
+
+
 
         <div class="pomo-settings">
+
           <div class="pomo-setting">
+
             <label>เวลาทำงาน</label>
+
             <div class="time-inputs">
+
               <div>
+
                 <input id="pomoWorkMinutes" type="number" min="0" max="180" value="25" aria-label="นาทีทำงาน">
+
                 <div class="input-unit">นาที</div>
+
               </div>
+
               <div>
+
                 <input id="pomoWorkSeconds" type="number" min="0" max="59" value="0" aria-label="วินาทีทำงาน">
+
                 <div class="input-unit">วินาที</div>
+
               </div>
+
             </div>
+
           </div>
+
           <div class="pomo-setting">
+
             <label>เวลาพัก</label>
+
             <div class="time-inputs">
+
               <div>
+
                 <input id="pomoBreakMinutes" type="number" min="0" max="60" value="5" aria-label="นาทีพัก">
+
                 <div class="input-unit">นาที</div>
+
               </div>
+
               <div>
+
                 <input id="pomoBreakSeconds" type="number" min="0" max="59" value="0" aria-label="วินาทีพัก">
+
                 <div class="input-unit">วินาที</div>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
+
 
         <div class="pomo-actions">
+
           <button id="pomoStart">▶ เริ่ม</button>
+
           <button id="pomoPause" class="secondary">⏸ หยุดชั่วคราว</button>
+
           <button id="pomoReset" class="secondary">↺ รีเซ็ต</button>
+
         </div>
-        <div class="message" id="pomoMessage" aria-live="polite">พร้อมเริ่มทำงาน</div>
+      <div class="pomo-sound-settings">
+        <label class="sound-toggle">
+          <input id="pomoSoundEnabled" type="checkbox" checked>
+          <span>🔔 เปิดเสียงแจ้งเตือน</span>
+        </label>
+        <button id="pomoTestSound" class="secondary" type="button">▶ ทดลองเสียง</button>
+      </div>
+      <div class="message" id="pomoSoundMessage" aria-live="polite">เสียงเปิดอยู่ · เตือนก่อนหมดเวลาพัก 10 วินาที</div>
+      <div class="message" id="pomoMessage" aria-live="polite">พร้อมเริ่มทำงาน</div>
+
       </section>
 
+
+
       <section class="card">
+
         <h2>🎲 Random Number</h2>
+
         <p class="description">สุ่มตัวเลขในช่วงที่ต้องการ</p>
+
         <div class="field">
+
           <label for="randomMin">ค่าต่ำสุด</label>
+
           <input id="randomMin" type="number" value="1">
+
         </div>
+
         <div class="field">
+
           <label for="randomMax">ค่าสูงสุด</label>
+
           <input id="randomMax" type="number" value="100">
+
         </div>
+
         <div class="result-number" id="randomResult">—</div>
+
         <button id="randomGenerate" style="width:100%">สุ่มตัวเลข</button>
+
         <div class="message" id="randomMessage" aria-live="polite">กำหนดช่วงแล้วกดสุ่ม</div>
+
       </section>
 
+
+
       <section class="card">
+
         <h2>🔐 Password Generator</h2>
+
         <p class="description">สร้างรหัสผ่านด้วยตัวสุ่มของเบราว์เซอร์</p>
+
         <div class="field">
+
           <label for="passwordLength">ความยาว (8–64 ตัวอักษร)</label>
+
           <input id="passwordLength" type="number" min="8" max="64" value="16">
+
         </div>
+
         <div class="field">
+
           <label><input id="passUpper" type="checkbox" checked style="width:auto"> ตัวพิมพ์ใหญ่ A–Z</label>
+
           <label><input id="passLower" type="checkbox" checked style="width:auto"> ตัวพิมพ์เล็ก a–z</label>
+
           <label><input id="passNumbers" type="checkbox" checked style="width:auto"> ตัวเลข 0–9</label>
+
           <label><input id="passSymbols" type="checkbox" checked style="width:auto"> สัญลักษณ์</label>
+
         </div>
+
         <div class="output password-output" id="passwordResult">รหัสผ่านจะแสดงที่นี่</div>
+
         <div class="row" style="margin-top:12px">
+
           <button id="passwordGenerate">สร้างรหัสผ่าน</button>
+
           <button id="passwordCopy" class="secondary">คัดลอก</button>
+
         </div>
+
         <div class="message" id="passwordMessage" aria-live="polite">เลือกตัวเลือกแล้วสร้างรหัสผ่าน</div>
+
       </section>
 
+
+
       <section class="card">
+
         <h2>🎯 Daily Goals</h2>
+
         <p class="description">เป้าหมายวันนี้ของคุณ</p>
+
         <div class="row">
+
           <input id="goalInput" placeholder="พิมพ์เป้าหมาย..." maxlength="120" aria-label="เป้าหมายใหม่">
+
           <button id="goalAdd">เพิ่ม</button>
+
         </div>
+
         <div class="goal-progress"><div id="goalProgressBar"></div></div>
+
         <div class="muted" id="goalProgressText" style="font-size:12px;margin-bottom:12px">สำเร็จ 0 จาก 0</div>
+
         <div class="goal-list" id="goalList"></div>
+
       </section>
+
     </main>
 
+
+
     <footer>DarkHub © <span id="footerYear"></span> · Built for focus, designed for you.</footer>
+
   </div>
 
+
+
   <script>
+
     "use strict";
 
+
+
     // Helpers
+
     const byId = (id) => document.getElementById(id);
 
+
+
     function showMessage(id, message) {
+
       byId(id).textContent = message;
+
     }
+
+
 
     // 1. Digital Clock
+
     function updateClock() {
+
       const now = new Date();
+
       byId("clockTime").textContent = now.toLocaleTimeString("th-TH", {
+
         hour: "2-digit", minute: "2-digit", second: "2-digit",
+
         hour12: false
+
       });
+
       byId("clockDate").textContent = now.toLocaleDateString("th-TH", {
+
         weekday: "long", year: "numeric", month: "long", day: "numeric"
+
       });
+
       byId("footerYear").textContent = now.getFullYear();
+
     }
+
     updateClock();
+
     setInterval(updateClock, 1000);
 
+
+
     // 2. Stopwatch
+
     let swRunning = false;
+
     let swStartAt = 0;
+
     let swElapsed = 0;
+
     let swInterval = null;
+
     let swLapCount = 0;
 
+
+
     function renderStopwatch() {
+
       const elapsed = swElapsed + (swRunning ? performance.now() - swStartAt : 0);
+
       const centiseconds = Math.floor(elapsed / 10);
+
       const minutes = Math.floor(centiseconds / 6000);
+
       const seconds = Math.floor(centiseconds / 100) % 60;
+
       const cs = centiseconds % 100;
+
       byId("stopwatchDisplay").textContent =
+
         String(minutes).padStart(2, "0") + ":" +
+
         String(seconds).padStart(2, "0") + "." +
+
         String(cs).padStart(2, "0");
+
     }
 
+
+
     byId("swStart").addEventListener("click", () => {
+
       if (swRunning) {
+
         swElapsed += performance.now() - swStartAt;
+
         swRunning = false;
+
         clearInterval(swInterval);
+
         byId("swStart").textContent = "▶ เริ่มต่อ";
+
       } else {
+
         swStartAt = performance.now();
+
         swRunning = true;
+
         swInterval = setInterval(renderStopwatch, 30);
+
         byId("swStart").textContent = "⏸ หยุด";
+
       }
+
       renderStopwatch();
+
     });
+
+
 
     byId("swLap").addEventListener("click", () => {
+
       if (!swRunning && swElapsed === 0) return;
+
       renderStopwatch();
+
       swLapCount++;
+
       const item = document.createElement("div");
+
       item.className = "lap";
+
       const name = document.createElement("span");
+
       name.textContent = "รอบ " + swLapCount;
+
       const time = document.createElement("span");
+
       time.textContent = byId("stopwatchDisplay").textContent;
+
       item.append(name, time);
+
       byId("swLaps").prepend(item);
+
     });
+
+
 
     byId("swReset").addEventListener("click", () => {
+
       clearInterval(swInterval);
+
       swRunning = false;
+
       swElapsed = 0;
+
       swLapCount = 0;
+
       byId("swStart").textContent = "▶ เริ่ม";
+
       byId("swLaps").replaceChildren();
+
       renderStopwatch();
+
     });
 
+
+
     // 3. Calculator: parser without eval()
+
     let calcExpression = "";
+
     let calcJustEvaluated = false;
 
+
+
     function tokenize(expression) {
+
       const tokens = [];
+
       let i = 0;
 
+
+
       while (i < expression.length) {
+
         const ch = expression[i];
+
+
 
         if (/\s/.test(ch)) { i++; continue; }
 
+
+
         if (/[0-9.]/.test(ch)) {
+
           let number = "";
+
           let dots = 0;
 
+
+
           while (i < expression.length && /[0-9.]/.test(expression[i])) {
+
             if (expression[i] === ".") dots++;
+
             number += expression[i++];
+
           }
 
+
+
           if (dots > 1 || number === ".") throw Error("ตัวเลขไม่ถูกต้อง");
+
           tokens.push(Number(number));
+
           continue;
+
         }
+
+
 
         if ("+-*/()".includes(ch)) {
+
           tokens.push(ch);
+
           i++;
+
           continue;
+
         }
+
+
 
         throw Error("มีอักขระที่ไม่รองรับ");
+
       }
+
       return tokens;
+
     }
 
+
+
     function evaluateExpression(expression) {
+
       const tokens = tokenize(expression);
+
       let pos = 0;
 
+
+
       function parseExpression() {
+
         let value = parseTerm();
+
         while (tokens[pos] === "+" || tokens[pos] === "-") {
+
           const op = tokens[pos++];
+
           const right = parseTerm();
+
           value = op === "+" ? value + right : value - right;
+
         }
+
         return value;
+
       }
+
+
 
       function parseTerm() {
+
         let value = parseUnary();
+
         while (tokens[pos] === "*" || tokens[pos] === "/") {
+
           const op = tokens[pos++];
+
           const right = parseUnary();
+
           if (op === "/" && right === 0) throw Error("หารด้วยศูนย์ไม่ได้");
+
           value = op === "*" ? value * right : value / right;
+
         }
+
         return value;
+
       }
+
+
 
       function parseUnary() {
+
         if (tokens[pos] === "+") { pos++; return parseUnary(); }
+
         if (tokens[pos] === "-") { pos++; return -parseUnary(); }
+
         return parsePrimary();
+
       }
 
+
+
       function parsePrimary() {
+
         const token = tokens[pos++];
+
+
 
         if (typeof token === "number") return token;
 
+
+
         if (token === "(") {
+
           const value = parseExpression();
+
           if (tokens[pos++] !== ")") throw Error("วงเล็บไม่ครบ");
+
           return value;
+
         }
 
+
+
         throw Error("นิพจน์ไม่สมบูรณ์");
+
       }
 
+
+
       if (!tokens.length) throw Error("กรุณาป้อนตัวเลข");
+
       const result = parseExpression();
 
+
+
       if (pos !== tokens.length) throw Error("ตรวจสอบนิพจน์อีกครั้ง");
+
       if (!Number.isFinite(result)) throw Error("ผลลัพธ์ไม่ถูกต้อง");
 
+
+
       return Number(result.toPrecision(12));
+
     }
+
+
 
     function renderCalc() {
+
       byId("calcDisplay").value = calcExpression || "0";
+
     }
 
+
+
     byId("calcButtons").addEventListener("click", (event) => {
+
       const button = event.target.closest("button[data-calc]");
+
       if (!button) return;
+
+
 
       const value = button.dataset.calc;
 
+
+
       if (value === "clear") {
+
         calcExpression = "";
+
         calcJustEvaluated = false;
+
         showMessage("calcMessage", "ล้างค่าแล้ว");
+
       } else if (value === "back") {
+
         calcExpression = calcExpression.slice(0, -1);
+
         calcJustEvaluated = false;
+
       } else if (value === "=") {
+
         try {
+
           calcExpression = String(evaluateExpression(calcExpression));
+
           calcJustEvaluated = true;
+
           showMessage("calcMessage", "คำนวณสำเร็จ");
+
         } catch (error) {
+
           showMessage("calcMessage", error.message || "คำนวณไม่ได้");
+
           calcExpression = "";
+
         }
+
       } else {
+
         if (calcJustEvaluated && /[0-9.(]/.test(value)) calcExpression = "";
+
         calcJustEvaluated = false;
+
         calcExpression += value;
+
       }
+
+
 
       renderCalc();
+
     });
 
+
+
+    // Pomodoro alert sounds (generated locally with Web Audio API)
+    let pomoAudioContext = null;
+
+    function getPomoAudioContext() {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      if (!pomoAudioContext) pomoAudioContext = new AudioContextClass();
+      if (pomoAudioContext.state === "suspended") pomoAudioContext.resume();
+      return pomoAudioContext;
+    }
+
+    function playPomoTone(frequency, startOffset, duration, volume = 0.12, type = "sine") {
+      const context = getPomoAudioContext();
+      if (!context || !byId("pomoSoundEnabled").checked) return;
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      const startAt = context.currentTime + startOffset;
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, startAt);
+      gain.gain.setValueAtTime(0.0001, startAt);
+      gain.gain.exponentialRampToValueAtTime(volume, startAt + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      oscillator.start(startAt);
+      oscillator.stop(startAt + duration + 0.03);
+    }
+
+    function playPomoAlert(kind) {
+      if (!byId("pomoSoundEnabled").checked) return;
+      // Each event has a distinct short melody.
+      if (kind === "break-start") {
+        playPomoTone(660, 0, 0.16);
+        playPomoTone(880, 0.2, 0.22);
+      } else if (kind === "break-ending") {
+        playPomoTone(740, 0, 0.12);
+        playPomoTone(740, 0.18, 0.12);
+        playPomoTone(988, 0.36, 0.2);
+      } else if (kind === "work-resume") {
+        playPomoTone(523, 0, 0.16);
+        playPomoTone(659, 0.18, 0.16);
+        playPomoTone(784, 0.36, 0.25);
+      } else if (kind === "test") {
+        playPomoTone(587, 0, 0.14);
+        playPomoTone(784, 0.18, 0.2);
+      }
+    }
+
+    byId("pomoSoundEnabled").addEventListener("change", () => {
+      showMessage("pomoSoundMessage", byId("pomoSoundEnabled").checked
+        ? "เปิดเสียงแจ้งเตือนแล้ว"
+        : "ปิดเสียงแจ้งเตือนแล้ว");
+      if (byId("pomoSoundEnabled").checked) getPomoAudioContext();
+    });
+
+    byId("pomoTestSound").addEventListener("click", () => {
+      if (!byId("pomoSoundEnabled").checked) {
+        showMessage("pomoSoundMessage", "กรุณาเปิดเสียงแจ้งเตือนก่อนทดลอง");
+        return;
+      }
+      getPomoAudioContext();
+      playPomoAlert("test");
+      showMessage("pomoSoundMessage", "กำลังเล่นเสียงทดลอง");
+    });
+
+    // Track whether the near-end break alert has already played this break.
+    let pomoBreakEndingAlerted = false;
+
     // 4. Pomodoro: one self-contained timer controller
+
     const pomo = {
+
       running: false,
+
       isBreak: false,
+
       remaining: 25 * 60,
+
       duration: 25 * 60,
+
       deadline: 0,
+
       interval: null
+
     };
 
+
+
     function readPomoDuration(isBreak) {
+
       const prefix = isBreak ? "pomoBreak" : "pomoWork";
+
       const minutes = Number(byId(prefix + "Minutes").value);
+
       const seconds = Number(byId(prefix + "Seconds").value);
+
       const maxMinutes = isBreak ? 60 : 180;
 
+
+
       if (
+
         !Number.isInteger(minutes) || minutes < 0 || minutes > maxMinutes ||
+
         !Number.isInteger(seconds) || seconds < 0 || seconds > 59 ||
+
         minutes * 60 + seconds < 1
+
       ) {
+
         return null;
+
       }
+
       return minutes * 60 + seconds;
+
     }
+
+
 
     function formatPomoTime(totalSeconds) {
+
       const mins = Math.floor(totalSeconds / 60);
+
       const secs = totalSeconds % 60;
+
       return String(mins).padStart(2, "0") + ":" +
+
         String(secs).padStart(2, "0");
+
     }
+
+
 
     function renderPomo() {
+
       byId("pomoDisplay").textContent = formatPomoTime(pomo.remaining);
 
+
+
       const progress = pomo.duration > 0
+
         ? Math.max(0, Math.min(1, 1 - pomo.remaining / pomo.duration))
+
         : 0;
 
+
+
       byId("pomoRing").style.setProperty(
+
         "--pomo-progress", (progress * 360) + "deg"
+
       );
+
       byId("pomoRing").setAttribute(
+
         "aria-valuenow", String(Math.round(progress * 100))
+
       );
+
+
 
       byId("pomoCard").classList.toggle("pomo-break", pomo.isBreak);
+
       byId("pomoCard").classList.toggle("pomo-running", pomo.running);
 
+
+
       byId("pomoMode").textContent = pomo.isBreak
+
         ? "● โหมดพัก"
+
         : "● โหมดทำงาน";
 
+
+
       byId("pomoCaption").textContent = pomo.running
+
         ? "กำลังจับเวลา"
+
         : pomo.remaining === 0 ? "หมดเวลา" : "เหลือเวลา";
 
+
+
       byId("pomoStart").textContent = pomo.running
+
         ? "▶ กำลังทำงาน..." : "▶ เริ่ม";
+
       byId("pomoStart").disabled = pomo.running;
+
     }
+
+
 
     function stopPomoInterval() {
+
       if (pomo.interval !== null) {
+
         clearInterval(pomo.interval);
+
         pomo.interval = null;
+
       }
+
       pomo.running = false;
+
     }
+
+
 
     function startPomo() {
+
       if (pomo.running) return;
 
+
+
       if (pomo.remaining <= 0) {
+
         showMessage("pomoMessage", "หมดเวลาแล้ว กรุณากดรีเซ็ตเพื่อเริ่มใหม่");
+
         return;
+
       }
+
+
 
       pomo.running = true;
+
       pomo.deadline = Date.now() + pomo.remaining * 1000;
+
       pomo.interval = setInterval(updatePomo, 100);
+
       showMessage("pomoMessage", pomo.isBreak
+
         ? "กำลังพัก... ปล่อยใจให้สบาย"
+
         : "กำลังโฟกัส... ทำทีละอย่างให้สำเร็จ");
+
       renderPomo();
+
     }
 
+
+
     function updatePomo() {
+
       if (!pomo.running) return;
 
+
+
       pomo.remaining = Math.max(
+
         0, Math.ceil((pomo.deadline - Date.now()) / 1000)
+
       );
 
-      if (pomo.remaining > 0) {
-        renderPomo();
-        return;
+
+
+      // Warn once when a break has 10 seconds left.
+      if (pomo.isBreak && pomo.remaining > 0 && pomo.remaining <= 10 && !pomoBreakEndingAlerted) {
+        pomoBreakEndingAlerted = true;
+        playPomoAlert("break-ending");
       }
 
-      // End current phase, then automatically begin the next phase.
+      if (pomo.remaining > 0) {
+
+        renderPomo();
+
+        return;
+
+      }
+
+
+
+      // End current phase, play its transition sound, then begin the next phase.
+      // The current phase is still active here, before toggling isBreak.
+      playPomoAlert(pomo.isBreak ? "work-resume" : "break-start");
       stopPomoInterval();
+
       pomo.isBreak = !pomo.isBreak;
+      if (pomo.isBreak) pomoBreakEndingAlerted = false;
+
+
 
       const nextDuration = readPomoDuration(pomo.isBreak);
 
+
+
       if (nextDuration === null) {
+
         pomo.remaining = 0;
+
         pomo.duration = 1;
+
         showMessage("pomoMessage",
+
           "เวลาช่วงถัดไปไม่ถูกต้อง กรุณาตั้งเวลาใหม่แล้วกดรีเซ็ต");
+
         renderPomo();
+
         return;
+
       }
+
+
 
       pomo.duration = nextDuration;
+
       pomo.remaining = nextDuration;
 
+
+
       showMessage("pomoMessage", pomo.isBreak
+
         ? "หมดเวลาทำงานแล้ว! เริ่มช่วงพักอัตโนมัติ ☕"
+
         : "หมดเวลาพักแล้ว! เริ่มช่วงทำงานใหม่อัตโนมัติ 🍅");
 
+
+
       // Automatically start the next phase.
+
       startPomo();
+
     }
+
+
 
     function pausePomo() {
+
       if (!pomo.running) {
+
         showMessage("pomoMessage", "ตัวจับเวลาหยุดอยู่แล้ว");
+
         return;
+
       }
+
+
 
       pomo.remaining = Math.max(
+
         0, Math.ceil((pomo.deadline - Date.now()) / 1000)
+
       );
+
       stopPomoInterval();
+
       renderPomo();
+
       showMessage("pomoMessage", "หยุดชั่วคราวแล้ว กดเริ่มเพื่อทำต่อ");
+
     }
+
+
 
     function resetPomo() {
+
       stopPomoInterval();
 
+
+
       const work = readPomoDuration(false);
+
       const rest = readPomoDuration(true);
 
+
+
       if (work === null || rest === null) {
+
         showMessage("pomoMessage",
+
           "เวลาทำงานต้องอยู่ในช่วง 0–180 นาที และเวลาพัก 0–60 นาที โดยแต่ละช่วงต้องมีอย่างน้อย 1 วินาที");
+
         renderPomo();
+
         return;
+
       }
 
+
+
       pomo.isBreak = false;
+
       pomo.duration = work;
+
       pomo.remaining = work;
 
+
+
       renderPomo();
+
       showMessage("pomoMessage", "ตั้งเวลาใหม่แล้ว พร้อมเริ่มทำงาน");
+
     }
 
+
+
     byId("pomoStart").addEventListener("click", startPomo);
+
     byId("pomoPause").addEventListener("click", pausePomo);
+
     byId("pomoReset").addEventListener("click", resetPomo);
 
+
+
     [
+
       "pomoWorkMinutes", "pomoWorkSeconds",
+
       "pomoBreakMinutes", "pomoBreakSeconds"
+
     ].forEach((id) => {
+
       byId(id).addEventListener("change", () => {
+
         if (!pomo.running) resetPomo();
+
       });
+
     });
+
+
 
     renderPomo();
 
+
+
     // 5. Random Number
+
     byId("randomGenerate").addEventListener("click", () => {
+
       const min = Number(byId("randomMin").value);
+
       const max = Number(byId("randomMax").value);
 
+
+
       if (!Number.isSafeInteger(min) || !Number.isSafeInteger(max) || min > max) {
+
         showMessage("randomMessage", "กรุณาใส่จำนวนเต็มที่ถูกต้อง และค่าต่ำสุดต้องไม่มากกว่าค่าสูงสุด");
+
         return;
+
       }
+
+
 
       const range = max - min + 1;
 
+
+
       if (!Number.isSafeInteger(range) || range <= 0) {
+
         showMessage("randomMessage", "ช่วงตัวเลขกว้างเกินไป");
+
         return;
+
       }
+
+
 
       const values = new Uint32Array(1);
+
       const limit = Math.floor(4294967296 / range) * range;
+
       let value;
 
+
+
       do {
+
         crypto.getRandomValues(values);
+
         value = values[0];
+
       } while (value >= limit);
 
+
+
       byId("randomResult").textContent = String(min + value % range);
+
       showMessage("randomMessage", "สุ่มสำเร็จ");
+
     });
+
+
 
     // 6. Password Generator
+
     byId("passwordGenerate").addEventListener("click", () => {
+
       const length = Number(byId("passwordLength").value);
+
       const sets = [];
 
+
+
       if (byId("passUpper").checked) sets.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
       if (byId("passLower").checked) sets.push("abcdefghijklmnopqrstuvwxyz");
+
       if (byId("passNumbers").checked) sets.push("0123456789");
-      if (byId("passSymbols").checked) sets.push("!@#$%^&*()-_=+[]{}?");
+
+      if (byId("passSymbols").checked) sets.push("!@#$%^&*()-\_=+[]{}?");
+
+
 
       if (!Number.isInteger(length) || length < 8 || length > 64) {
+
         showMessage("passwordMessage", "กรุณาเลือกความยาวระหว่าง 8–64 ตัวอักษร");
+
         return;
+
       }
+
+
 
       if (sets.length === 0) {
+
         showMessage("passwordMessage", "กรุณาเลือกประเภทตัวอักษรอย่างน้อยหนึ่งแบบ");
+
         return;
+
       }
+
+
 
       const all = sets.join("");
+
       const randomIndex = (max) => {
+
         const limit = Math.floor(4294967296 / max) * max;
+
         const buf = new Uint32Array(1);
+
         do { crypto.getRandomValues(buf); } while (buf[0] >= limit);
+
         return buf[0] % max;
+
       };
 
+
+
       const chars = sets.map(set => set[randomIndex(set.length)]);
+
       while (chars.length < length) chars.push(all[randomIndex(all.length)]);
 
+
+
       // Shuffle to avoid fixed positions for required character types.
+
       for (let i = chars.length - 1; i > 0; i--) {
+
         const j = randomIndex(i + 1);
+
         [chars[i], chars[j]] = [chars[j], chars[i]];
+
       }
+
+
 
       byId("passwordResult").textContent = chars.join("");
+
       showMessage("passwordMessage", "สร้างรหัสผ่านแล้ว");
+
     });
+
+
 
     byId("passwordCopy").addEventListener("click", async () => {
+
       const password = byId("passwordResult").textContent;
 
+
+
       if (!password || password === "รหัสผ่านจะแสดงที่นี่") {
+
         showMessage("passwordMessage", "กรุณาสร้างรหัสผ่านก่อน");
+
         return;
+
       }
 
+
+
       try {
+
         await navigator.clipboard.writeText(password);
+
         showMessage("passwordMessage", "คัดลอกรหัสผ่านแล้ว");
+
       } catch {
+
         showMessage("passwordMessage",
+
           "เบราว์เซอร์ไม่อนุญาตให้คัดลอกอัตโนมัติ กรุณาเลือกข้อความแล้วกด Ctrl+C");
+
       }
+
     });
+
+
 
     // 7. Daily Goals (saved locally in this browser)
+
     const GOAL_STORAGE_KEY = "darkhub-goals-v1";
+
     let goals = [];
 
+
+
     try {
+
       const saved = localStorage.getItem(GOAL_STORAGE_KEY);
+
       if (saved) {
+
         const parsed = JSON.parse(saved);
+
         if (Array.isArray(parsed)) {
+
           goals = parsed.filter(item =>
+
             item &&
+
             typeof item.text === "string" &&
+
             typeof item.done === "boolean"
+
           );
+
         }
+
       }
+
     } catch {
+
       goals = [];
+
     }
+
+
 
     function saveGoals() {
+
       try {
+
         localStorage.setItem(GOAL_STORAGE_KEY, JSON.stringify(goals));
+
       } catch {
+
         // The page remains usable even when storage is unavailable.
+
       }
+
     }
+
+
 
     function renderGoals() {
+
       const list = byId("goalList");
+
       list.replaceChildren();
 
+
+
       goals.forEach((goal, index) => {
+
         const item = document.createElement("div");
+
         item.className = "goal-item" + (goal.done ? " done" : "");
 
+
+
         const checkbox = document.createElement("input");
+
         checkbox.type = "checkbox";
+
         checkbox.checked = goal.done;
+
         checkbox.setAttribute("aria-label", "ทำเป้าหมายสำเร็จ");
+
         checkbox.addEventListener("change", () => {
+
           goals[index].done = checkbox.checked;
+
           saveGoals();
+
           renderGoals();
+
         });
+
+
 
         const text = document.createElement("span");
+
         text.textContent = goal.text;
 
+
+
         const remove = document.createElement("button");
+
         remove.className = "danger";
+
         remove.textContent = "×";
+
         remove.setAttribute("aria-label", "ลบเป้าหมาย");
+
         remove.addEventListener("click", () => {
+
           goals.splice(index, 1);
+
           saveGoals();
+
           renderGoals();
+
         });
 
+
+
         item.append(checkbox, text, remove);
+
         list.append(item);
+
       });
 
+
+
       const completed = goals.filter(goal => goal.done).length;
+
       const percentage = goals.length ? completed / goals.length * 100 : 0;
 
+
+
       byId("goalProgressBar").style.width = percentage + "%";
+
       byId("goalProgressText").textContent =
+
         "สำเร็จ " + completed + " จาก " + goals.length + " เป้าหมาย";
+
     }
+
+
 
     function addGoal() {
+
       const input = byId("goalInput");
+
       const text = input.value.trim();
 
+
+
       if (!text) {
+
         input.focus();
+
         return;
+
       }
 
+
+
       goals.push({ text, done: false });
+
       saveGoals();
+
       renderGoals();
+
       input.value = "";
+
       input.focus();
+
     }
 
+
+
     byId("goalAdd").addEventListener("click", addGoal);
+
     byId("goalInput").addEventListener("keydown", event => {
+
       if (event.key === "Enter") addGoal();
+
     });
 
+
+
     renderGoals();
+
   </script>
+
 </body>
+
 </html>
