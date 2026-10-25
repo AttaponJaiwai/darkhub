@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DarkHub | เครื่องมือของคุณ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #0b0d14;
+      color: #f5f6ff;
+    }
+
+    header {
+      padding: 24px 7%;
+      border-bottom: 1px solid #25283a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      color: #a78bfa;
+    }
+
+    .status {
+      color: #a5b4fc;
+      font-size: 13px;
+    }
+
+    main {
+      width: min(1050px, 90%);
+      margin: 55px auto;
+    }
+
+    .hero {
+      margin-bottom: 35px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 52px);
+      margin: 0 0 12px;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 span {
+      color: #a78bfa;
+    }
+
+    .hero p {
+      color: #9ca3b8;
+      line-height: 1.7;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #141724;
+      border: 1px solid #292d42;
+      border-radius: 18px;
+      padding: 25px;
+      min-width: 0;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 19px;
+    }
+
+    .clock {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 750;
+      color: #c4b5fd;
+      margin: 22px 0 10px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .muted {
+      color: #9ca3b8;
+      font-size: 14px;
+    }
+
+    input, select, button {
+      font: inherit;
+      border-radius: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      min-width: 0;
+      padding: 12px;
+      color: #f5f6ff;
+      background: #0b0d14;
+      border: 1px solid #353a50;
+      margin: 6px 0;
+    }
+
+    button {
+      border: 0;
+      background: #8b5cf6;
+      color: white;
+      font-weight: 650;
+      padding: 11px 16px;
+      cursor: pointer;
+      margin: 5px 4px 0 0;
+    }
+
+    button:hover {
+      background: #7c3aed;
+    }
+
+    button.secondary {
+      background: #292d42;
+    }
+
+    .result {
+      color: #c4b5fd;
+      font-size: 23px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+      margin-top: 16px;
+    }
+
+    .watch {
+      font-size: 36px;
+      font-weight: 750;
+      color: #c4b5fd;
+      font-variant-numeric: tabular-nums;
+      margin: 24px 0;
+    }
+
+    footer {
+      text-align: center;
+      color: #737b92;
+      padding: 30px 15px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 650px) {
+      header {
+        padding: 20px 5%;
+      }
+
+      main {
+        margin: 35px auto;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">✦ DarkHub</div>
+    <div class="status">● พร้อมใช้งาน</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>เครื่องมือของคุณ<br><span>ครบ จบในที่เดียว</span></h1>
+      <p>
+        เว็บเล็ก ๆ ที่ช่วยให้ชีวิตง่ายขึ้น
+        ใช้งานฟรีและเปิดได้ทั้งคอมพิวเตอร์กับมือถือ
+      </p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>◷ นาฬิกาดิจิทัล</h2>
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="muted" id="date">กำลังโหลดวันที่...</div>
+      </article>
+
+      <article class="card">
+        <h2>＋ เครื่องคิดเลข</h2>
+        <label for="num1">ตัวเลขที่หนึ่ง</label>
+        <input id="num1" type="number" placeholder="เช่น 25">
+
+        <label for="operation">การคำนวณ</label>
+        <select id="operation">
+          <option value="+">บวก (+)</option>
+          <option value="-">ลบ (-)</option>
+          <option value="*">คูณ (×)</option>
+          <option value="/">หาร (÷)</option>
+        </select>
+
+        <label for="num2">ตัวเลขที่สอง</label>
+        <input id="num2" type="number" placeholder="เช่น 5">
+
+        <button id="calculate">คำนวณ</button>
+        <div class="result" id="result" aria-live="polite">
+          ผลลัพธ์จะแสดงที่นี่
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>⏱ ตัวจับเวลา</h2>
+        <div class="watch" id="watch">00:00.0</div>
+        <button id="start">เริ่ม</button>
+        <button id="stop" class="secondary">หยุด</button>
+        <button id="reset" class="secondary">รีเซ็ต</button>
+      </article>
+
+      <article class="card">
+        <h2>✧ เป้าหมายของ DarkHub</h2>
+        <p class="muted">
+          เรียนรู้สิ่งใหม่ ทดลองไอเดีย และสร้างเครื่องมือ
+          ที่มีประโยชน์ในชีวิตประจำวัน
+        </p>
+        <p style="color:#c4b5fd">
+          เริ่มต้นเล็ก ๆ แล้วค่อยพัฒนาให้ยิ่งใหญ่
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer>DarkHub © 2026 · สร้างด้วย HTML, CSS และ JavaScript</footer>
+
+  <script>
+    // นาฬิกาดิจิทัล
+    function updateClock() {
+      const now = new Date();
+
+      document.getElementById("clock").textContent =
+        now.toLocaleTimeString("th-TH", {
+          hour12: false
+        });
+
+      document.getElementById("date").textContent =
+        now.toLocaleDateString("th-TH", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // เครื่องคิดเลข
+    document.getElementById("calculate").addEventListener("click", () => {
+      const a = document.getElementById("num1").value;
+      const b = document.getElementById("num2").value;
+      const op = document.getElementById("operation").value;
+      const output = document.getElementById("result");
+
+      if (a.trim() === "" || b.trim() === "") {
+        output.textContent = "กรุณากรอกตัวเลขทั้งสองช่อง";
+        return;
+      }
+
+      const x = Number(a);
+      const y = Number(b);
+      let answer;
+
+      if (op === "+") answer = x + y;
+      if (op === "-") answer = x - y;
+      if (op === "*") answer = x * y;
+
+      if (op === "/") {
+        if (y === 0) {
+          output.textContent = "ไม่สามารถหารด้วยศูนย์ได้";
+          return;
+        }
+        answer = x / y;
+      }
+
+      output.textContent = "ผลลัพธ์: " + answer;
+    });
+
+    // ตัวจับเวลา
+    let startedAt = 0;
+    let elapsed = 0;
+    let running = false;
+    let frame = null;
+
+    function renderWatch() {
+      const total = elapsed +
+        (running ? performance.now() - startedAt : 0);
+
+      const tenths = Math.floor(total / 100) % 10;
+      const seconds = Math.floor(total / 1000) % 60;
+      const minutes = Math.floor(total / 60000);
+
+      document.getElementById("watch").textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0") + "." + tenths;
+
+      if (running) {
+        frame = requestAnimationFrame(renderWatch);
+      }
+    }
+
+    document.getElementById("start").addEventListener("click", () => {
+      if (running) return;
+
+      running = true;
+      startedAt = performance.now();
+      renderWatch();
+    });
+
+    document.getElementById("stop").addEventListener("click", () => {
+      if (!running) return;
+
+      elapsed += performance.now() - startedAt;
+      running = false;
+      cancelAnimationFrame(frame);
+      renderWatch();
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      running = false;
+      elapsed = 0;
+      startedAt = 0;
+      cancelAnimationFrame(frame);
+      renderWatch();
+    });
+  </script>
+</body>
+</html>
